@@ -1,0 +1,7 @@
+keys:
+  - &admin_dlutgehet age1h6umfmvsvsffkdlyy8tfxqremdemzugsgmwdsxuhhd52th9fdu4sw3sdfj
+creation_rules:
+  - path_regex: secrets/*
+    key_groups:
+      - age:
+          - *admin_dlutgehet
