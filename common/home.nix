@@ -253,10 +253,10 @@ in {
 
         # Show the diff between the latest commit and the current state
         d = ''
-          !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"'';
+          !git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'';
 
         # Pull in remote changes for the current repository and all its submodules
-        p = ''!"git pull; git submodule update --remote"'';
+        p = ''!git pull; git submodule update --remote'';
 
         # Commit all changes
         ca = "!git add -A && git commit -av";
