@@ -87,7 +87,7 @@ let
     else
       ${
         darwin.packages.${system}.darwin-rebuild
-      }/bin/darwin-rebuild switch --flake github:luetge/nixos#dlutgehet-work-macbook
+      }/bin/darwin-rebuild switch --flake github:luetge/nixos/demo#dlutgehet-work-macbook
     fi
 
     SUCCESS=1
