@@ -7,10 +7,10 @@
       upgrade = true;
     };
     taps = [
-      "homebrew/bundle"
-      "homebrew/cask"
-      "homebrew/cask-fonts"
-      "homebrew/core"
+      #"homebrew/bundle"
+      #"homebrew/cask"
+      #"homebrew/cask-fonts"
+      #"homebrew/core"
     ];
     brews = [ "libiconv" ];
     #masApps = {
@@ -19,20 +19,19 @@
     #  "1Password for Safari" = 1569813296;
     #};
     casks = [
-      "1password"
-      "docker"
-      "expressvpn"
-      "font-fira-code-nerd-font"
-      "font-mplus-nerd-font"
-      "google-chrome"
-      "microsoft-auto-update"
-      "microsoft-office"
-      "microsoft-teams"
-      "maccy"
-      "signal"
-      "slack"
-      "vlc"
-      "zoom"
+      #"1password"
+      #"docker"
+      #"expressvpn"
+      #"font-fira-code-nerd-font"
+      #"font-mplus-nerd-font"
+      #"google-chrome"
+      #"microsoft-auto-update"
+      #"microsoft-office"
+      #"microsoft-teams"
+      #"signal"
+      #"slack"
+      #"vlc"
+      #"zoom"
       "maccy"
     ];
   };
