@@ -64,5 +64,8 @@ alias make_pwd_private='chmod -R go-rwx .'
 alias g='git'
 alias t='tmux -2 attach -d || tmux -2 new';
 
+# Capslock mapping
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc": 0x700000039, "HIDKeyboardModifierMappingDst": 0x7000000E0}]}' > /dev/null || true
+
 # Launch/connect to tmux if needed
 if [ "$TMUX" = "" ]; then t; fi
