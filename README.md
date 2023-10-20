@@ -22,7 +22,7 @@
 
 * Install on current machine: `nix run` or `nix run .#install`
 * Add to/edit the encrypted secrets (which are contained in `./secrets/`): `nix run .#edit-secrets ./secrets/your_filename_here`
-* Format: `nix run .#fmt`
+* Format: `nix run .#fmt-srcs`
 * Run git-hooks: `nix run .#git-hooks`
 
 ## TODO

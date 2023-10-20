@@ -17,7 +17,7 @@ let
     fi
     ${create-age-key}/bin/create-age-key
   '';
-  fmt = pkgs.writeShellScriptBin "fmt" ''
+  fmt-srcs = pkgs.writeShellScriptBin "fmt-srcs" ''
     set -e
     ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'` --check || ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'`
   '';
@@ -93,4 +93,4 @@ let
     SUCCESS=1
   '';
 
-in { inherit install fmt edit-secrets setup-macos-dock; }
+in { inherit install fmt-srcs edit-secrets setup-macos-dock; }

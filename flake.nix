@@ -68,7 +68,7 @@
             format_all = {
               enable = true;
               name = "fmt";
-              entry = "${scripts.fmt}/bin/fmt";
+              entry = "${scripts.fmt-srcs}/bin/fmt-srcs";
               pass_filenames = false;
             };
           };
