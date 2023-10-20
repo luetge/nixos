@@ -93,6 +93,7 @@
         checks = { inherit git-hooks; };
         devShells.default = pkgs.mkShell {
           buildInputs = pkgs.lib.attrValues scripts;
+
           inherit (git-hooks) shellHook;
         };
       });
