@@ -24,3 +24,7 @@
 * Add to/edit the encrypted secrets (which are contained in `./secrets/`): `nix run .#edit-secrets ./secrets/your_filename_here`
 * Format: `nix run .#fmt`
 * Run git-hooks: `nix run .#git-hooks`
+
+## TODO
+
+* Make it work to install from branches

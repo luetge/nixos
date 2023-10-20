@@ -70,7 +70,8 @@
     "oderwat.indent-rainbow",
     "ban.spellright",
     "bungcip.better-toml",
-    "mkhl.direnv"
+    "mkhl.direnv",
+    "ms-python.vscode-pylance"
   ],
   "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.server.path": "rust-analyzer",
