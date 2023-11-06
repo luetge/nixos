@@ -36,6 +36,7 @@ let
     safe-reattach-to-user-namespace
     docker
     _1password
+    ruff
 
     poetry
 
@@ -182,10 +183,6 @@ in {
         ms-python.python
         ms-vscode-remote.remote-ssh
         ms-python.vscode-pylance
-        ms-python.mypy-type-checker
-        ms-python.flake8
-        ms-python.pylint
-        ms-python.black-formatter
         tamasfe.even-better-toml
         jnoortheen.nix-ide
         usernamehw.errorlens
@@ -193,6 +190,7 @@ in {
         mkhl.direnv
         rust-lang.rust-analyzer
         esbenp.prettier-vscode
+        charliermarsh.ruff
       ];
       userSettings =
         builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json);
