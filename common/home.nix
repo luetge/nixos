@@ -179,16 +179,20 @@ in {
       enable = true;
       extensions = with pkgs.vscode-extensions; [
         usernamehw.errorlens
+        ms-python.python
         ms-vscode-remote.remote-ssh
-        eamodio.gitlens
+        ms-python.vscode-pylance
+        ms-python.mypy-type-checker
+        ms-python.flake8
+        ms-python.pylint
+        ms-python.black-formatter
         tamasfe.even-better-toml
         jnoortheen.nix-ide
-        ms-python.python
         usernamehw.errorlens
         oderwat.indent-rainbow
         mkhl.direnv
         rust-lang.rust-analyzer
-        ms-python.vscode-pylance
+        esbenp.prettier-vscode
       ];
       userSettings =
         builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json);
