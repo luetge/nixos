@@ -191,6 +191,7 @@ in {
         rust-lang.rust-analyzer
         esbenp.prettier-vscode
         charliermarsh.ruff
+        humao.rest-client
       ];
       userSettings =
         builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json);

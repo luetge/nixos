@@ -1,5 +1,4 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[python]": {
     "editor.formatOnType": true
   },
@@ -27,15 +26,8 @@
     "jupyter-notebook": "left"
   },
   "python.languageServer": "Pylance",
-  "python.linting.flake8Args": [
-    "--max-line-length=88",
-    "--extend-ignore=E203"
-  ],
-  "python.terminal.launchArgs": [
-    "-m",
-    "IPython",
-    "--no-autoindent"
-  ],
+  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
+  "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
   "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.server.path": "rust-analyzer",
   "terminal.integrated.windowsEnableConpty": false,
