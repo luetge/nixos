@@ -231,6 +231,7 @@ in {
             { };
         };
       };
+      includes = [ config.sops.secrets.ssh_config.path ];
     };
     git = {
       package = pkgs.gitAndTools.gitFull;
