@@ -39,6 +39,8 @@ let
     ruff
 
     poetry
+    cargo
+    rust-analyzer
 
     # Better cli tools
     bat
