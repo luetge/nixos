@@ -35,6 +35,8 @@
       "zoom"
       "maccy"
       "figma"
+      "remarkable"
+      "steam"
     ];
   };
 }
