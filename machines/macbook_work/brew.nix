@@ -34,6 +34,7 @@
       "vlc"
       "zoom"
       "maccy"
+      "figma"
     ];
   };
 }
