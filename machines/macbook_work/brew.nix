@@ -6,12 +6,7 @@
       autoUpdate = true;
       upgrade = true;
     };
-    taps = [
-      "homebrew/bundle"
-      "homebrew/cask"
-      "homebrew/cask-fonts"
-      "homebrew/core"
-    ];
+    taps = [ "homebrew/bundle" "homebrew/cask-fonts" ];
     brews = [ "libiconv" ];
     masApps = {
       "Save to Pocket" = 1477385213;

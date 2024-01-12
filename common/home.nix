@@ -196,7 +196,7 @@ in {
         mkhl.direnv
         rust-lang.rust-analyzer
         esbenp.prettier-vscode
-        charliermarsh.ruff
+        # TODO: Enable again charliermarsh.ruff
         humao.rest-client
       ];
       userSettings =
