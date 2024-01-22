@@ -21,7 +21,7 @@ in base // {
 
   nix = base.nix // {
     linux-builder = {
-      enable = false; # TODO: Enable again (cache problem)
+      enable = true;
       maxJobs = 10;
     };
   };
