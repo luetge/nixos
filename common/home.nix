@@ -53,6 +53,8 @@ let
     watchexec
     ripgrep
 
+    ghostscript
+
     # Fonts
     roboto
     roboto-slab
