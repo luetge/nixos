@@ -8,6 +8,10 @@ let
     pkgs.writeShellScriptBin "reattach-to-user-namespace" ''
       exec "$@"
     '';
+  compress-pdf = pkgs.writeShellScriptBin "compress-pdf" ''
+    set -e
+    ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
+  '';
   user-packages = with pkgs; [
     rsync
     stow
@@ -53,7 +57,7 @@ let
     watchexec
     ripgrep
 
-    ghostscript
+    compress-pdf
 
     # Fonts
     roboto
