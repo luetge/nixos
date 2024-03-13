@@ -7,7 +7,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v9
       - name: Run the Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v3
+        uses: DeterminateSystems/magic-nix-cache-action@v4
       - name: Check formatting
         run: nix build .#git-hooks
       - name: Build config
