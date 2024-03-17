@@ -92,6 +92,6 @@ let
     fi
 
     SUCCESS=1
-  '' else '');
+  '' else '''');
 
 in { inherit install fmt-srcs edit-secrets setup-macos-dock; }
