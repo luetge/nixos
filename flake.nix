@@ -86,7 +86,9 @@
             };
           };
         packages = {
-          inherit git-hooks darwinConfigurations;
+          inherit git-hooks;
+          dlutgehet-work-macbook-cache =
+            darwinConfigurations.dlutgehet-work-macbook.system;
           default = scripts.install;
         } // scripts;
         checks = { inherit git-hooks; };
