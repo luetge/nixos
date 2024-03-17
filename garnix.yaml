@@ -4,5 +4,6 @@ builds:
     - 'packages.aarch64-darwin.*'
     - 'devShell.x86_64-linux'
     - 'devShell.aarch64-darwin'
+    - 'darwinConfigurations.aarch64-darwin.dlutgehet-work-macbook'
   exclude:
     - 'packages.*.homeConfigurations'
