@@ -57,8 +57,7 @@ let
       ${setup-macos-dock}/bin/setup-macos-dock
     '' else
       "");
-  install = pkgs.writeShellScriptBin "install"
-    (if pkgs.stdenv.isDarwin then ''
+  install = pkgs.writeShellScriptBin "install" (if pkgs.stdenv.isDarwin then ''
     set -e
     ${setup-ssh}/bin/setup-ssh
     ${setup-macos}/bin/setup-macos
@@ -92,6 +91,7 @@ let
     fi
 
     SUCCESS=1
-  '' else '''');
+  '' else
+  "");
 
 in { inherit install fmt-srcs edit-secrets setup-macos-dock; }
