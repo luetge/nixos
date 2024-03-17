@@ -26,7 +26,8 @@
       builders-use-substitutes = true;
       allow-import-from-derivation = true;
       trusted-users = [ "@admin" user ];
-      substituters = [ "https://cache.nixos.org/" ];
+      substituters = [ "https://cache.nixos.org/" "https://cache.garnix.io" ];
+      trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
       system-features = [ "kvm" "nixos-test" "benchmark" "big-parallel" "hvf" ];
       extra-platforms = lib.optionalString (pkgs.system == "aarch64-darwin")
         "x86_64-darwin aarch64-darwin";
