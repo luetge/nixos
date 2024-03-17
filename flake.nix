@@ -74,20 +74,20 @@
         };
 
       in {
+        homeConfigurations.dlutgehet =
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+
+            modules = [ ./common/home.nix ];
+            extraSpecialArgs = {
+              inherit user sops-nix;
+              isWorkMachine = true;
+              noSystemInstall = true;
+            };
+          };
         packages = {
           inherit git-hooks darwinConfigurations;
           default = scripts.install;
-          homeConfigurations.dlutgehet =
-            home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
-
-              modules = [ ./common/home.nix ];
-              extraSpecialArgs = {
-                inherit user sops-nix;
-                isWorkMachine = true;
-                noSystemInstall = true;
-              };
-            };
         } // scripts;
         checks = { inherit git-hooks; };
         devShells.default = pkgs.mkShell {
