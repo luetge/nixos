@@ -32,16 +32,6 @@
     let
       inherit (darwin.lib) darwinSystem;
       user = "dlutgehet";
-    in {
-
-      #nixosConfigurations.rbpi = nixpkgs.lib.nixosSystem {
-      #  system = "aarch64-linux";
-      #  specialArgs = {
-      #    rev = if (self ? rev) then self.rev else null;
-      #  } // inputs;
-      #  modules = [ ./machines/rbpi/configuration.nix ];
-      #};
-
       darwinConfigurations = {
         dlutgehet-work-macbook = let system = "aarch64-darwin";
         in darwinSystem {
@@ -53,7 +43,16 @@
           specialArgs = { inherit darwin nixpkgs self user sops-nix; };
         };
       };
+    in {
+      inherit darwinConfigurations;
 
+      #nixosConfigurations.rbpi = nixpkgs.lib.nixosSystem {
+      #  system = "aarch64-linux";
+      #  specialArgs = {
+      #    rev = if (self ? rev) then self.rev else null;
+      #  } // inputs;
+      #  modules = [ ./machines/rbpi/configuration.nix ];
+      #};
     } // flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -76,7 +75,7 @@
 
       in {
         packages = {
-          inherit git-hooks;
+          inherit git-hooks darwinConfigurations;
           default = scripts.install;
           homeConfigurations.dlutgehet =
             home-manager.lib.homeManagerConfiguration {
