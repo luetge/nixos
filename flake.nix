@@ -88,7 +88,7 @@
         packages = {
           inherit git-hooks;
           dlutgehet-work-macbook-cache =
-            darwinConfigurations.dlutgehet-work-macbook.system;
+            darwinConfigurations.dlutgehet-work-macbook.pkgs; # TODO: Fix and replace by .system
           default = scripts.install;
         } // scripts;
         checks = { inherit git-hooks; };
