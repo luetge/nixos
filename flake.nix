@@ -72,23 +72,23 @@
             };
           };
         };
+        dlutgehet-home-config = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [ ./common/home.nix ];
+          extraSpecialArgs = {
+            inherit user sops-nix;
+            isWorkMachine = true;
+            noSystemInstall = true;
+          };
+        };
 
       in {
-        homeConfigurations.dlutgehet =
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-
-            modules = [ ./common/home.nix ];
-            extraSpecialArgs = {
-              inherit user sops-nix;
-              isWorkMachine = true;
-              noSystemInstall = true;
-            };
-          };
+        homeConfigurations.dlutgehet = dlutgehet-home-config;
         packages = {
           inherit git-hooks;
           dlutgehet-work-macbook-cache =
-            darwinConfigurations.dlutgehet-work-macbook.pkgs; # TODO: Fix and replace by .system
+            dlutgehet-home-config.activationPackage; # TODO: Fix and replace by darwinConfigurations.dlutgehet-work-macbook.system
           default = scripts.install;
         } // scripts;
         checks = { inherit git-hooks; };
