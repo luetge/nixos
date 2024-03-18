@@ -25,7 +25,7 @@
       build-users-group = "nixbld";
       builders-use-substitutes = true;
       allow-import-from-derivation = true;
-      trusted-users = [ "@admin" user ];
+      trusted-users = [ "@admin" ];
       substituters = [ "https://cache.nixos.org/" "https://cache.garnix.io" ];
       trusted-public-keys =
         [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
