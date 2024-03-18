@@ -33,7 +33,6 @@ let
     pcre2
     gettext
     nixfmt
-    rnix-lsp
     nil
     manix
     rage

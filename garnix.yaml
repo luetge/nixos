@@ -1,9 +1,7 @@
 builds:
   include:
-    - '*.x86_64-linux.*'
-    - '*.aarch64-darwin.*'
-    - homeConfigurations.*
+    - "*.x86_64-linux.*"
+    - "*.aarch64-darwin.*"
     - nixosConfigurations.*
-    - darwinConfigurations.*.system
     - defaultPackage.x86_64-linux
     - devShell.x86_64-linux
