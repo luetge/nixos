@@ -49,6 +49,13 @@ in base // {
       wvous-bl-corner = 2; # Mission control
       wvous-br-corner = null; # Nothing
       wvous-tr-corner = 10; # Display to sleep
+      persistent-apps = [
+        "/Applications/Microsoft Outlook.app/"
+        "/Users/${user}/.nix-profile/Applications/kitty.app/"
+        "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/"
+        "/Applications/Slack.app/"
+        "/System/Applications/Music.app/"
+      ];
     };
     trackpad = {
       Clicking = true;
