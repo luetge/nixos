@@ -3,7 +3,7 @@
     "editor.formatOnType": true
   },
   "editor.accessibilitySupport": "off",
-  "editor.fontFamily": "'FiraCode Nerd Font Mono', Consolas, 'Courier New', monospace",
+  "editor.fontFamily": "'M+1Code Nerd Font Mono', 'FiraCode Nerd Font Mono', Consolas, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.fontSize": 16,
   "editor.formatOnSave": true,
@@ -20,7 +20,6 @@
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
   "nix.serverPath": "nil",
-  "nixEnvSelector.args": "",
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
@@ -31,5 +30,6 @@
   "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.server.path": "rust-analyzer",
   "terminal.integrated.windowsEnableConpty": false,
-  "workbench.colorTheme": "Material Theme High Contrast"
+  "workbench.colorTheme": "Material Theme High Contrast",
+  "extensions.ignoreRecommendations": true
 }

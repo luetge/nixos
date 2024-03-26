@@ -129,7 +129,7 @@ in {
     kitty = {
       enable = true;
       font = {
-        name = "FiraCode Nerd Font Mono Regular";
+        name = "M+1Code Nerd Font Mono";
         size = 18;
       };
       theme = "Material Dark";
