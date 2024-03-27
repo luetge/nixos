@@ -2,6 +2,7 @@
 }:
 
 let
+  extra_pkgs = import ../overlays/pkgs.nix { inherit pkgs; };
   safe-reattach-to-user-namespace = if pkgs.stdenv.isDarwin then
     pkgs.reattach-to-user-namespace
   else
@@ -202,7 +203,8 @@ in {
         esbenp.prettier-vscode
         charliermarsh.ruff
         humao.rest-client
-        ms-toolsai.vscode-ai
+        extra_pkgs.ms-toolsai--vscode-ai
+        extra_pkgs.ms-toolsai--vscode-ai-remote
       ];
     in {
       enable = true;
