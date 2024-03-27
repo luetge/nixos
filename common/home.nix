@@ -187,8 +187,7 @@ in {
       extraConfig = builtins.readFile ../dotfiles/.tmux.conf;
     };
 
-    vscode = {
-      enable = true;
+    vscode = let
       extensions = with pkgs.vscode-extensions; [
         usernamehw.errorlens
         ms-python.python
@@ -201,12 +200,19 @@ in {
         mkhl.direnv
         rust-lang.rust-analyzer
         esbenp.prettier-vscode
-        # TODO: Enable again charliermarsh.ruff
+        charliermarsh.ruff
         humao.rest-client
       ];
+    in {
+      enable = true;
+      extensions = extensions;
       mutableExtensionsDir = false;
       userSettings =
-        builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json);
+        builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+          "remote.SSH.defaultExtensions" =
+            map (ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}")
+            extensions;
+        };
     };
 
     neovim = {

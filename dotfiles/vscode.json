@@ -27,9 +27,9 @@
   "python.languageServer": "Pylance",
   "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
   "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
-  "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.server.path": "rust-analyzer",
   "terminal.integrated.windowsEnableConpty": false,
-  "workbench.colorTheme": "Material Theme High Contrast",
-  "extensions.ignoreRecommendations": true
+  "workbench.colorTheme": "Default Dark Modern",
+  "extensions.ignoreRecommendations": true,
+  "rust-analyzer.cargo.features": "all"
 }
