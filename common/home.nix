@@ -202,6 +202,7 @@ in {
         esbenp.prettier-vscode
         charliermarsh.ruff
         humao.rest-client
+        ms-toolsai.vscode-ai
       ];
     in {
       enable = true;
