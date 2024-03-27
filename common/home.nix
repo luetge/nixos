@@ -204,6 +204,7 @@ in {
         # TODO: Enable again charliermarsh.ruff
         humao.rest-client
       ];
+      mutableExtensionsDir = false;
       userSettings =
         builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json);
     };
