@@ -296,6 +296,7 @@ in {
         init = { defaultBranch = "main"; };
         apply = { whitespace = "fix"; };
         commit.gpgsign = true;
+        push.autoSetupRemote = true;
         gpg.format = "ssh";
         "gpg \"ssh\"".program =
           "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
