@@ -30,6 +30,14 @@ in base // {
 
   environment = base.environment // {
     systemPackages = base.environment.systemPackages ++ [ system-update ];
+
+    # Enable sudo authentication with Touch ID
+    # TODO: Remove once https://github.com/LnL7/nix-darwin/pull/612 is merged and replace with the following:
+    # security.pam.enableSudoTouchIdAuth = true;
+    etc."pam.d/sudo_local".text = ''
+      auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so  # Needed for using Touch ID within tmux
+      auth       sufficient     pam_tid.so
+    '';
   };
 
   system.defaults = {

@@ -7,7 +7,7 @@
       upgrade = true;
     };
     taps = [ "homebrew/bundle" "homebrew/cask-fonts" ];
-    brews = [ "pam-reattach" ];
+    brews = [ ];
     masApps = {
       "Save to Pocket" = 1477385213;
       "Todoist: To-Do List & Tasks" = 585829637;

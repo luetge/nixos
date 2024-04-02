@@ -55,7 +55,6 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
   fonts.fontDir.enable = true;
-  security.pam.enableSudoTouchIdAuth = true;
 
   home-manager.users.dlutgehet = import ./home.nix;
   home-manager.extraSpecialArgs = {

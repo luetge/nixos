@@ -41,6 +41,7 @@ let
     docker
     _1password
     ruff
+    pam-reattach
 
     poetry
     cargo
