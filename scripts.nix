@@ -39,6 +39,7 @@ let
       "");
   install = pkgs.writeShellScriptBin "install" (if pkgs.stdenv.isDarwin then ''
     set -e
+    sudo echo "installing system" # make sure we are asked for sudo upfront
     ${setup-ssh}/bin/setup-ssh
     ${setup-macos}/bin/setup-macos
     echo installing system

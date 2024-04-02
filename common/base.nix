@@ -25,6 +25,8 @@
       build-users-group = "nixbld";
       builders-use-substitutes = true;
       allow-import-from-derivation = true;
+      http-connections = 128;
+      max-substitution-jobs = 128;
       trusted-users = [ "@admin" user ];
       substituters = [ "https://cache.nixos.org/" "https://cache.garnix.io" ];
       trusted-public-keys =
