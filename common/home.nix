@@ -42,6 +42,7 @@ let
     _1password
     ruff
     pam-reattach
+    zed
 
     poetry
     cargo
