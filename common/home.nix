@@ -42,7 +42,6 @@ let
     _1password
     ruff
     pam-reattach
-    zed
 
     poetry
     cargo
@@ -79,6 +78,7 @@ in {
     '';
   };
   home = {
+    enableNixpkgsReleaseCheck = false;
     username = user;
     homeDirectory = homeDirectory;
     packages = user-packages;
@@ -196,6 +196,7 @@ in {
         ms-python.python
         ms-vscode-remote.remote-ssh
         ms-python.vscode-pylance
+        ms-toolsai.jupyter
         tamasfe.even-better-toml
         jnoortheen.nix-ide
         usernamehw.errorlens
@@ -207,6 +208,7 @@ in {
         humao.rest-client
         extra_pkgs.ms-toolsai--vscode-ai
         extra_pkgs.ms-toolsai--vscode-ai-remote
+        matangover.mypy
       ];
     in {
       enable = true;

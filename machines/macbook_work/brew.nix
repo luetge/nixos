@@ -32,6 +32,7 @@
       "figma"
       "remarkable"
       "steam"
+      "zed"
     ];
   };
 }
