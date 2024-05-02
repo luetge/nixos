@@ -1,14 +1,23 @@
-{ pkgs, user, isWorkMachine, sops-nix, config, lib, noSystemInstall ? false, ...
+{
+  pkgs,
+  user,
+  isWorkMachine,
+  sops-nix,
+  config,
+  lib,
+  noSystemInstall ? false,
+  ...
 }:
 
 let
   extra_pkgs = import ../overlays/pkgs.nix { inherit pkgs; };
-  safe-reattach-to-user-namespace = if pkgs.stdenv.isDarwin then
-    pkgs.reattach-to-user-namespace
-  else
-    pkgs.writeShellScriptBin "reattach-to-user-namespace" ''
-      exec "$@"
-    '';
+  safe-reattach-to-user-namespace =
+    if pkgs.stdenv.isDarwin then
+      pkgs.reattach-to-user-namespace
+    else
+      pkgs.writeShellScriptBin "reattach-to-user-namespace" ''
+        exec "$@"
+      '';
   compress-pdf = pkgs.writeShellScriptBin "compress-pdf" ''
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
@@ -33,7 +42,7 @@ let
     openssl
     pcre2
     gettext
-    nixfmt
+    nixfmt-rfc-style
     nil
     manix
     rage
@@ -46,6 +55,8 @@ let
     poetry
     cargo
     rust-analyzer
+
+    zed-editor
 
     # Better cli tools
     bat
@@ -65,10 +76,10 @@ let
     roboto-slab
     roboto-mono
   ];
-  homeDirectory =
-    if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
+  homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
   personalFolder = "~/personal/";
-in {
+in
+{
   imports = [ sops-nix.homeManagerModules.sops ];
   nixpkgs.config.allowUnfree = true;
   nix = {
@@ -86,14 +97,10 @@ in {
     file = {
       ".config/tmux/tmux.remote.conf".source = ../dotfiles/.tmux.remote.conf;
       ".bash_profile".source = ../dotfiles/.bash_profile;
-      ".ssh/id_ed25519_work.pub".source =
-        ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
-      ".ssh/id_ed25519_work_github.pub".source =
-        ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
-      ".ssh/id_ed25519_personal.pub".source =
-        ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
-      ".ssh/id_ed25519_personal_github.pub".source =
-        ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
+      ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
+      ".ssh/id_ed25519_work_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
+      ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
+      ".ssh/id_ed25519_personal_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
     };
     sessionVariables = {
       HISTSIZE = "5000";
@@ -114,13 +121,15 @@ in {
     defaultSopsFile = ../.sops.yaml;
     # Read all files as binary secret files and make them
     # available as config.sops.secrets.`filename`
-    secrets = let
-      toSecret = file: _: {
-        sopsFile = ../secrets/${file};
-        path = "${homeDirectory}/.config/git/${file}";
-        format = "binary";
-      };
-    in pkgs.lib.mapAttrs toSecret (builtins.readDir ../secrets);
+    secrets =
+      let
+        toSecret = file: _: {
+          sopsFile = ../secrets/${file};
+          path = "${homeDirectory}/.config/git/${file}";
+          format = "binary";
+        };
+      in
+      pkgs.lib.mapAttrs toSecret (builtins.readDir ../secrets);
   };
 
   programs = {
@@ -150,27 +159,27 @@ in {
         extended = true;
         ignoreDups = true;
       };
-      plugins = [{
-        # will source zsh-autosuggestions.plugin.zsh
-        name = "zsh-autosuggestions";
-        src = pkgs.fetchFromGitHub {
-          owner = "zsh-users";
-          repo = "zsh-autosuggestions";
-          rev = "v0.4.0";
-          sha256 = "0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc";
-        };
-      }];
+      plugins = [
+        {
+          # will source zsh-autosuggestions.plugin.zsh
+          name = "zsh-autosuggestions";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.4.0";
+            sha256 = "0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc";
+          };
+        }
+      ];
     };
 
     home-manager.enable = true;
     fzf = {
       enable = true;
       enableZshIntegration = true;
-      defaultCommand =
-        ''rg --files --no-ignore --hidden --follow --glob "!.git/*"'';
+      defaultCommand = ''rg --files --no-ignore --hidden --follow --glob "!.git/*"'';
       changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
-      changeDirWidgetCommand =
-        "fd -t d . $HOME/code $HOME/personal/code $HOME/Documents";
+      changeDirWidgetCommand = "fd -t d . $HOME/code $HOME/personal/code $HOME/Documents";
       tmux.enableShellIntegration = true;
     };
     dircolors = {
@@ -179,7 +188,9 @@ in {
     };
     direnv = {
       enable = true;
-      nix-direnv = { enable = true; };
+      nix-direnv = {
+        enable = true;
+      };
     };
     htop.enable = true;
     jq.enable = true;
@@ -190,37 +201,38 @@ in {
       extraConfig = builtins.readFile ../dotfiles/.tmux.conf;
     };
 
-    vscode = let
-      extensions = with pkgs.vscode-extensions; [
-        usernamehw.errorlens
-        ms-python.python
-        ms-vscode-remote.remote-ssh
-        ms-python.vscode-pylance
-        ms-toolsai.jupyter
-        tamasfe.even-better-toml
-        jnoortheen.nix-ide
-        usernamehw.errorlens
-        oderwat.indent-rainbow
-        mkhl.direnv
-        rust-lang.rust-analyzer
-        esbenp.prettier-vscode
-        charliermarsh.ruff
-        humao.rest-client
-        extra_pkgs.ms-toolsai--vscode-ai
-        extra_pkgs.ms-toolsai--vscode-ai-remote
-        matangover.mypy
-      ];
-    in {
-      enable = true;
-      extensions = extensions;
-      mutableExtensionsDir = false;
-      userSettings =
-        builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
-          "remote.SSH.defaultExtensions" =
-            map (ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}")
-            extensions;
+    vscode =
+      let
+        extensions = with pkgs.vscode-extensions; [
+          usernamehw.errorlens
+          ms-python.python
+          ms-vscode-remote.remote-ssh
+          ms-python.vscode-pylance
+          ms-toolsai.jupyter
+          tamasfe.even-better-toml
+          jnoortheen.nix-ide
+          usernamehw.errorlens
+          oderwat.indent-rainbow
+          mkhl.direnv
+          rust-lang.rust-analyzer
+          esbenp.prettier-vscode
+          charliermarsh.ruff
+          humao.rest-client
+          extra_pkgs.ms-toolsai--vscode-ai
+          extra_pkgs.ms-toolsai--vscode-ai-remote
+          matangover.mypy
+        ];
+      in
+      {
+        enable = true;
+        extensions = extensions;
+        mutableExtensionsDir = false;
+        userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+          "remote.SSH.defaultExtensions" = map (
+            ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
+          ) extensions;
         };
-    };
+      };
 
     neovim = {
       enable = true;
@@ -228,7 +240,9 @@ in {
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = false;
-      coc = { enable = true; };
+      coc = {
+        enable = true;
+      };
       extraConfig = builtins.readFile ../dotfiles/.vimrc;
       plugins = with pkgs.vimPlugins; [
         coc-fzf
@@ -247,11 +261,11 @@ in {
       matchBlocks = {
         # On macOS, add 1password SSH keys
         "*" = {
-          extraOptions = if pkgs.stdenv.isDarwin then {
-            IdentityAgent =
-              "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock";
-          } else
-            { };
+          extraOptions =
+            if pkgs.stdenv.isDarwin then
+              { IdentityAgent = "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"; }
+            else
+              { };
         };
       };
       includes = [ config.sops.secrets.ssh_config.path ];
@@ -262,10 +276,11 @@ in {
 
       includes = [
         {
-          path = if isWorkMachine then
-            config.sops.secrets.gitconfig_work.path
-          else
-            config.sops.secrets.gitconfig_personal.path;
+          path =
+            if isWorkMachine then
+              config.sops.secrets.gitconfig_work.path
+            else
+              config.sops.secrets.gitconfig_personal.path;
         }
         {
           condition = "gitdir:${personalFolder}";
@@ -281,8 +296,7 @@ in {
         s = "status -s";
 
         # Show the diff between the latest commit and the current state
-        d =
-          "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat";
+        d = "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat";
 
         # Pull in remote changes for the current repository and all its submodules
         p = "!git pull; git submodule update --remote";
@@ -291,19 +305,20 @@ in {
         ca = "!git add -A && git commit -av";
 
         # Switch to a branch, creating it if necessary
-        go = ''
-          !f() { git checkout -b "$1" 2> /dev/null || git checkout "$1"; }; f'';
-
+        go = ''!f() { git checkout -b "$1" 2> /dev/null || git checkout "$1"; }; f'';
       };
       lfs.enable = true;
       extraConfig = {
-        init = { defaultBranch = "main"; };
-        apply = { whitespace = "fix"; };
+        init = {
+          defaultBranch = "main";
+        };
+        apply = {
+          whitespace = "fix";
+        };
         commit.gpgsign = true;
         push.autoSetupRemote = true;
         gpg.format = "ssh";
-        "gpg \"ssh\"".program =
-          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        "gpg \"ssh\"".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
 
         core = {
           # Use custom `.gitignore` and `.gitattributes`
@@ -352,7 +367,9 @@ in {
           # Detect copies as well as renames
           renames = "copies";
         };
-        help = { autocorrect = "1"; };
+        help = {
+          autocorrect = "1";
+        };
         merge = {
           # Include summaries of merged commits in newly created merge commit messages
           log = "true";

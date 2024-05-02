@@ -1,10 +1,27 @@
-{ rev ? null, pkgs, nixpkgs, home-manager, user, lib, sops-nix, ... }:
+{
+  rev ? null,
+  pkgs,
+  nixpkgs,
+  home-manager,
+  user,
+  lib,
+  sops-nix,
+  ...
+}:
 let
   base = (import ../../common/base.nix) {
-    inherit lib pkgs nixpkgs user sops-nix;
+    inherit
+      lib
+      pkgs
+      nixpkgs
+      user
+      sops-nix
+      ;
     isWorkMachine = false;
   };
-in base // {
+in
+base
+// {
   system.configurationRevision = pkgs.lib.mkIf (rev != null) rev;
 
   imports = [ home-manager.nixosModule ];
@@ -30,10 +47,12 @@ in base // {
     };
   };
 
-  swapDevices = [{
-    device = "/swapfile";
-    size = 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 1024;
+    }
+  ];
 
   networking.hostName = "rbpi";
 

@@ -1,19 +1,41 @@
-{ lib, pkgs, nixpkgs, user, sops-nix, ... }:
+{
+  lib,
+  pkgs,
+  nixpkgs,
+  user,
+  sops-nix,
+  ...
+}:
 let
   base = (import ../../common/base.nix) {
-    inherit lib pkgs nixpkgs user sops-nix;
+    inherit
+      lib
+      pkgs
+      nixpkgs
+      user
+      sops-nix
+      ;
     isWorkMachine = true;
   };
   hostName = "${user}-work-macbook";
-  system-update = pkgs.writeShellScriptBin "system-update"
-    (if pkgs.stdenv.isDarwin then ''
-      darwin-rebuild switch --flake github:luetge/nixos
-    '' else
-      ''exit "not implemented yet"'');
-in base // {
+  system-update = pkgs.writeShellScriptBin "system-update" (
+    if pkgs.stdenv.isDarwin then
+      ''
+        darwin-rebuild switch --flake github:luetge/nixos
+      ''
+    else
+      ''exit "not implemented yet"''
+  );
+in
+base
+// {
   networking = {
-    knownNetworkServices =
-      [ "Wi-Fi" "Bluetooth PAN" "Thunderbolt Bridge" "VPN" ];
+    knownNetworkServices = [
+      "Wi-Fi"
+      "Bluetooth PAN"
+      "Thunderbolt Bridge"
+      "VPN"
+    ];
     hostName = hostName;
     computerName = hostName;
     localHostName = hostName;
@@ -26,7 +48,9 @@ in base // {
     };
   };
 
-  nixpkgs = { hostPlatform = "aarch64-darwin"; };
+  nixpkgs = {
+    hostPlatform = "aarch64-darwin";
+  };
 
   environment = base.environment // {
     systemPackages = base.environment.systemPackages ++ [ system-update ];
@@ -91,7 +115,9 @@ in base // {
   '';
 
   system.defaults.CustomUserPreferences = {
-    "com.apple.AdLib" = { allowApplePersonalizedAdvertising = false; };
+    "com.apple.AdLib" = {
+      allowApplePersonalizedAdvertising = false;
+    };
     "com.apple.print.PrintingPrefs" = {
       # Automatically quit printer app once the print jobs complete
       "Quit When Finished" = true;
@@ -223,4 +249,5 @@ in base // {
       ];
     };
   };
-} // (import ./brew.nix { })
+}
+// (import ./brew.nix { })

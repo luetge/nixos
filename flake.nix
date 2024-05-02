@@ -3,7 +3,7 @@
 
   inputs = {
     # Package sets
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
 
     # Environment/system management
     darwin.url = "github:lnl7/nix-darwin/master";
@@ -27,23 +27,43 @@
     };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, sops-nix
-    , pre-commit-hooks }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      darwin,
+      home-manager,
+      flake-utils,
+      sops-nix,
+      pre-commit-hooks,
+    }:
     let
       inherit (darwin.lib) darwinSystem;
       user = "dlutgehet";
       darwinConfigurations = {
-        dlutgehet-work-macbook = let system = "aarch64-darwin";
-        in darwinSystem {
-          inherit system;
-          modules = [
-            ./machines/macbook_work/configuration.nix
-            home-manager.darwinModules.home-manager
-          ];
-          specialArgs = { inherit darwin nixpkgs self user sops-nix; };
-        };
+        dlutgehet-work-macbook =
+          let
+            system = "aarch64-darwin";
+          in
+          darwinSystem {
+            inherit system;
+            modules = [
+              ./machines/macbook_work/configuration.nix
+              home-manager.darwinModules.home-manager
+            ];
+            specialArgs = {
+              inherit
+                darwin
+                nixpkgs
+                self
+                user
+                sops-nix
+                ;
+            };
+          };
       };
-    in {
+    in
+    {
       inherit darwinConfigurations;
 
       #nixosConfigurations.rbpi = nixpkgs.lib.nixosSystem {
@@ -53,13 +73,22 @@
       #  } // inputs;
       #  modules = [ ./machines/rbpi/configuration.nix ];
       #};
-    } // flake-utils.lib.eachDefaultSystem (system:
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         };
-        scripts = (import ./scripts.nix) { inherit pkgs darwin system user; };
+        scripts = (import ./scripts.nix) {
+          inherit
+            pkgs
+            darwin
+            system
+            user
+            ;
+        };
         # Define git hooks that get automatically installed
         git-hooks = pre-commit-hooks.lib.${system}.run {
           src = ./.;
@@ -82,20 +111,22 @@
             noSystemInstall = true;
           };
         };
-
-      in {
+      in
+      {
         homeConfigurations.dlutgehet = dlutgehet-home-config;
         packages = {
           inherit git-hooks;
-          dlutgehet-work-macbook-cache =
-            dlutgehet-home-config.activationPackage; # TODO: Fix and replace by darwinConfigurations.dlutgehet-work-macbook.system
+          dlutgehet-work-macbook-cache = dlutgehet-home-config.activationPackage; # TODO: Fix and replace by darwinConfigurations.dlutgehet-work-macbook.system
           default = scripts.install;
         } // scripts;
-        checks = { inherit git-hooks; };
+        checks = {
+          inherit git-hooks;
+        };
         devShells.default = pkgs.mkShell {
           buildInputs = pkgs.lib.attrValues scripts;
 
           inherit (git-hooks) shellHook;
         };
-      });
+      }
+    );
 }

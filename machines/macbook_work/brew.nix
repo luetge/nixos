@@ -1,4 +1,5 @@
-{ }: {
+{ }:
+{
   homebrew = {
     enable = true;
     onActivation = {
@@ -6,7 +7,10 @@
       autoUpdate = true;
       upgrade = true;
     };
-    taps = [ "homebrew/bundle" "homebrew/cask-fonts" ];
+    taps = [
+      "homebrew/bundle"
+      "homebrew/cask-fonts"
+    ];
     brews = [ ];
     masApps = {
       "Save to Pocket" = 1477385213;
