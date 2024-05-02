@@ -24,7 +24,7 @@
       options = "--delete-older-than 30d";
     };
 
-    package = pkgs.nixUnstable;
+    package = pkgs.nixVersions.latest;
     registry.nixpkgs.flake = nixpkgs;
     configureBuildUsers = true;
 

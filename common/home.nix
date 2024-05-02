@@ -56,7 +56,7 @@ let
     cargo
     rust-analyzer
 
-    zed-editor
+    # zed-editor
 
     # Better cli tools
     bat
