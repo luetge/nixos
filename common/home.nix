@@ -55,6 +55,7 @@ let
     poetry
     cargo
     rust-analyzer
+    rustfmt
 
     # zed-editor
 
