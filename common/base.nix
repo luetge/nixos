@@ -74,7 +74,6 @@
 
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
-  fonts.fontDir.enable = true;
 
   home-manager.users.dlutgehet = import ./home.nix;
   home-manager.extraSpecialArgs = {

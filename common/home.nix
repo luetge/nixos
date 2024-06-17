@@ -51,13 +51,12 @@ let
     _1password
     ruff
     pam-reattach
+    azure-cli
 
     poetry
     cargo
     rust-analyzer
     rustfmt
-
-    # zed-editor
 
     # Better cli tools
     bat

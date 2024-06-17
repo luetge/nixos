@@ -19,6 +19,7 @@
     };
     casks = [
       "1password"
+      "blackhole-2ch"
       "docker"
       "expressvpn"
       "font-fira-code-nerd-font"
@@ -31,6 +32,7 @@
       "signal"
       "slack"
       "vlc"
+      "firefox"
       "zoom"
       "maccy"
       "figma"
