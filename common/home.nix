@@ -52,11 +52,14 @@ let
     ruff
     pam-reattach
     azure-cli
+    signal-export
 
     poetry
     cargo
     rust-analyzer
     rustfmt
+    nodejs
+    samply
 
     # Better cli tools
     bat
@@ -209,6 +212,7 @@ in
           ms-vscode-remote.remote-ssh
           ms-python.vscode-pylance
           ms-toolsai.jupyter
+          ms-toolsai.jupyter-renderers
           tamasfe.even-better-toml
           jnoortheen.nix-ide
           usernamehw.errorlens

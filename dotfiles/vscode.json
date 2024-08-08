@@ -31,5 +31,11 @@
   "terminal.integrated.windowsEnableConpty": false,
   "workbench.colorTheme": "Default Dark Modern",
   "extensions.ignoreRecommendations": true,
-  "rust-analyzer.cargo.features": "all"
+  "rust-analyzer.cargo.features": "all",
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
