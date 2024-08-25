@@ -227,6 +227,9 @@ in
           matangover.mypy
           ms-python.black-formatter
           gruntfuggly.todo-tree
+          github.vscode-pull-request-github
+          github.remotehub
+          github.vscode-github-actions
         ];
       in
       {
