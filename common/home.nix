@@ -225,6 +225,8 @@ in
           extra_pkgs.ms-toolsai--vscode-ai
           extra_pkgs.ms-toolsai--vscode-ai-remote
           matangover.mypy
+          ms-python.black-formatter
+          gruntfuggly.todo-tree
         ];
       in
       {
