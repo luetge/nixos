@@ -115,6 +115,9 @@ base
   '';
 
   system.defaults.CustomUserPreferences = {
+    "com.apple.CrashReporter" = {
+      DialogType = "none";
+    };
     "com.apple.AdLib" = {
       allowApplePersonalizedAdvertising = false;
     };
