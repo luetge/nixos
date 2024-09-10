@@ -25,21 +25,28 @@
     "jupyter-notebook": "left"
   },
   "python.languageServer": "Pylance",
-  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
-  "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
+  "python.linting.flake8Args": [
+    "--max-line-length=88",
+    "--extend-ignore=E203"
+  ],
+  "python.terminal.launchArgs": [
+    "-m",
+    "IPython",
+    "--no-autoindent"
+  ],
   "rust-analyzer.server.path": "rust-analyzer",
   "terminal.integrated.windowsEnableConpty": false,
   "workbench.colorTheme": "Default Dark Modern",
   "extensions.ignoreRecommendations": true,
   "rust-analyzer.cargo.features": "all",
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }

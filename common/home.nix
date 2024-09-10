@@ -221,7 +221,7 @@ in
           oderwat.indent-rainbow
           mkhl.direnv
           rust-lang.rust-analyzer
-          esbenp.prettier-vscode
+          biomejs.biome
           charliermarsh.ruff
           humao.rest-client
           extra_pkgs.ms-toolsai--vscode-ai
