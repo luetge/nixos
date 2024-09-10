@@ -53,6 +53,7 @@ let
     pam-reattach
     azure-cli
     signal-export
+    pre-commit
 
     poetry
     cargo
