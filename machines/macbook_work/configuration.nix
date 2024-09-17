@@ -52,6 +52,8 @@ base
     hostPlatform = "aarch64-darwin";
   };
 
+  system.stateVersion = 5;
+
   environment = base.environment // {
     systemPackages = base.environment.systemPackages ++ [ system-update ];
 

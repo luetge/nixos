@@ -61,6 +61,7 @@ let
     rustfmt
     nodejs
     samply
+    pgadmin
 
     # Better cli tools
     bat
