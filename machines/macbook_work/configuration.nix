@@ -41,6 +41,7 @@ base
     localHostName = hostName;
   };
 
+  ids.gids.nixbld = 30000;
   nix = base.nix // {
     linux-builder = {
       enable = true;

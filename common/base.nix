@@ -25,7 +25,6 @@
     };
 
     package = pkgs.nixVersions.latest;
-    registry.nixpkgs.flake = nixpkgs;
     configureBuildUsers = true;
 
     settings = {
