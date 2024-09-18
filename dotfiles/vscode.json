@@ -51,5 +51,6 @@
   },
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
-  }
+  },
+  "python.locator": "js"
 }
