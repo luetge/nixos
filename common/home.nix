@@ -222,7 +222,6 @@ in
           oderwat.indent-rainbow
           mkhl.direnv
           rust-lang.rust-analyzer
-          biomejs.biome
           charliermarsh.ruff
           humao.rest-client
           extra_pkgs.ms-toolsai--vscode-ai
@@ -233,6 +232,7 @@ in
           github.vscode-pull-request-github
           # github.remotehub
           github.vscode-github-actions
+          esbenp.prettier-vscode
         ];
       in
       {
