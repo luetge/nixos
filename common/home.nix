@@ -150,7 +150,7 @@ in
         name = "M+1Code Nerd Font Mono";
         size = 18;
       };
-      theme = "Material Dark";
+      themeFile = "MaterialDark";
       settings = {
         enable_audio_bell = false;
         macos_titlebar_color = "background";
