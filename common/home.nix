@@ -51,7 +51,7 @@ let
     _1password
     ruff
     pam-reattach
-    azure-cli
+    # azure-cli
     signal-export
     pre-commit
 
@@ -107,6 +107,7 @@ in
       ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
       ".ssh/id_ed25519_personal_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
       ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
+      ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
     };
     sessionVariables = {
       HISTSIZE = "5000";
