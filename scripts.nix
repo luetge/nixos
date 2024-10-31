@@ -18,7 +18,7 @@ let
       mkdir -p $HOME/.config/sops/age
       mkdir -p $HOME/.ssh
       rm -f ${ssh-filename}
-      ${pkgs._1password}/bin/op read "op://Private/nix encryption SSH Key/private key" > ${ssh-filename}
+      ${pkgs._1password-cli}/bin/op read "op://Private/nix encryption SSH Key/private key" > ${ssh-filename}
     fi
     ${create-age-key}/bin/create-age-key
   '';
