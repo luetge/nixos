@@ -44,11 +44,12 @@ let
     gettext
     nixfmt-rfc-style
     nil
+    nixd
     manix
     rage
     safe-reattach-to-user-namespace
     docker
-    _1password
+    _1password-cli
     ruff
     pam-reattach
     # azure-cli
@@ -102,6 +103,7 @@ in
     file = {
       ".config/tmux/tmux.remote.conf".source = ../dotfiles/.tmux.remote.conf;
       ".bash_profile".source = ../dotfiles/.bash_profile;
+      ".config/zed/settings.json".source = ../dotfiles/zed.json;
       ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
       ".ssh/id_ed25519_work_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
       ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
