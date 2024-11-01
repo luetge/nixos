@@ -28,7 +28,7 @@
     "rust-analyzer": {
       "initialization_options": {
         "rust": {
-          "analyzerTargetDir": ".zed-rust-analyzer-dir"
+          "analyzerTargetDir": ".rust-analyzer-dir"
         },
         "check": {
           "command": "clippy"
