@@ -57,6 +57,7 @@ let
     pre-commit
 
     poetry
+    uv
     cargo
     rust-analyzer
     rustfmt
@@ -207,6 +208,7 @@ in
 
     tmux = {
       enable = true;
+      sensibleOnTop = false;
       extraConfig = builtins.readFile ../dotfiles/.tmux.conf;
     };
 
