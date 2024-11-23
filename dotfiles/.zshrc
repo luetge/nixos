@@ -8,7 +8,7 @@ typeset -U PATH
 export LANG=en_US.UTF-8
 unset LC_ALL
 
-export EDITOR=nvim
+export EDITOR=vim
 export LESSCHARSET=utf-8
 export PAGER='less -R'
 export TERM=xterm-256color
@@ -41,7 +41,7 @@ autoreload () {
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 
-export PATH=$PATH:/run/current-system/sw/bin/:/Users/dlutgehet/.nix-profile/bin/
+export PATH=/run/current-system/sw/bin/:/Users/dlutgehet/.nix-profile/bin/:$PATH
 
 # Performance boost
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1

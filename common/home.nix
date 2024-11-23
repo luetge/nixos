@@ -102,6 +102,7 @@ in
     packages = user-packages;
     stateVersion = "21.05";
     file = {
+      ".vimrc".source = ../dotfiles/.vimrc;
       ".config/tmux/tmux.remote.conf".source = ../dotfiles/.tmux.remote.conf;
       ".bash_profile".source = ../dotfiles/.bash_profile;
       ".config/zed/settings.json".source = ../dotfiles/zed.json;
@@ -115,7 +116,7 @@ in
     sessionVariables = {
       HISTSIZE = "5000";
       SAVEHIST = "5000";
-      EDITOR = "nvim";
+      EDITOR = "vim";
       LESSCHARSET = "utf-8";
       PAGER = "less -R";
       TERM = "xterm-256color";
@@ -356,7 +357,7 @@ in
           precomposeunicode = "false";
 
           # Special vim mode to alter the vimrc loading behavior, i.e. no long loading plugins
-          editor = "GIT=1 nvim";
+          editor = "GIT=1 vim";
           ignorecase = "true";
         };
         color = {
