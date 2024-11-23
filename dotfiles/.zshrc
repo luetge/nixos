@@ -8,7 +8,7 @@ typeset -U PATH
 export LANG=en_US.UTF-8
 unset LC_ALL
 
-export EDITOR=vim
+export EDITOR=nvim
 export LESSCHARSET=utf-8
 export PAGER='less -R'
 export TERM=xterm-256color

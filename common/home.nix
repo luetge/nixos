@@ -115,7 +115,7 @@ in
     sessionVariables = {
       HISTSIZE = "5000";
       SAVEHIST = "5000";
-      EDITOR = "vim";
+      EDITOR = "nvim";
       LESSCHARSET = "utf-8";
       PAGER = "less -R";
       TERM = "xterm-256color";
@@ -356,7 +356,7 @@ in
           precomposeunicode = "false";
 
           # Special vim mode to alter the vimrc loading behavior, i.e. no long loading plugins
-          editor = "GIT=1 vim";
+          editor = "GIT=1 nvim";
           ignorecase = "true";
         };
         color = {
