@@ -65,6 +65,8 @@ let
     samply
     pgadmin
 
+    devenv
+
     # Better cli tools
     bat
     eza
