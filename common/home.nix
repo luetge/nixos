@@ -64,6 +64,10 @@ let
     pgadmin
     cmake
 
+    python313
+    nerd-fonts.fira-code
+    nerd-fonts.mplus
+
     devenv
 
     # Better cli tools

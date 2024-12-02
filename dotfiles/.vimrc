@@ -255,9 +255,9 @@ imap jk <Esc>
 set encoding=utf-8
 set fenc=utf-8
 if has("gui_gtk3")
-  set guifont=M+\ 1mn\ Nerd\ Font\ Complete\ 16
+  set guifont=M+1Code\ Nerd\ Font\ Mono\ 16
 else
-  set guifont=M+\ 1mn\ Nerd\ Font\ Complete:h16
+  set guifont=M+1Code\ Nerd\ Font\ Mono:h16
 end
 
 " }}}

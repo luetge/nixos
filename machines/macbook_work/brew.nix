@@ -22,8 +22,6 @@
       "blackhole-2ch"
       "docker"
       "expressvpn"
-      "font-fira-code-nerd-font"
-      "font-mplus-nerd-font"
       "google-chrome"
       "microsoft-auto-update"
       "microsoft-office"
