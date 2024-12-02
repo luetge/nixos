@@ -58,12 +58,11 @@ let
 
     poetry
     uv
-    cargo
-    rust-analyzer
-    rustfmt
+    rustup
     nodejs
     samply
     pgadmin
+    cmake
 
     devenv
 
