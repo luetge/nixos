@@ -34,7 +34,6 @@
     "IPython",
     "--no-autoindent"
   ],
-  "rust-analyzer.server.path": "rust-analyzer",
   "terminal.integrated.windowsEnableConpty": false,
   "workbench.colorTheme": "Default Dark Modern",
   "extensions.ignoreRecommendations": true,
