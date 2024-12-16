@@ -63,6 +63,8 @@ let
     samply
     pgadmin
     cmake
+    azure-cli
+    yq
 
     python313
     nerd-fonts.fira-code
@@ -113,7 +115,8 @@ in
       ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
       ".ssh/id_ed25519_work_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
       ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
-      ".ssh/id_ed25519_personal_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
+      ".ssh/id_ed25519_personal_github.pub".source =
+        ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
       ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
       ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
     };
