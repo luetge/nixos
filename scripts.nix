@@ -37,7 +37,7 @@ let
       ''
         set -e
         # Disable any audio on macOS
-        sudo nvram SystemAudioVolume=" "
+        sudo /usr/sbin/nvram SystemAudioVolume=" "
 
         # Caps lock to ctrl
         hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc": 0x700000039, "HIDKeyboardModifierMappingDst": 0x7000000E0}]}' > /dev/null || true
