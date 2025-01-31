@@ -57,6 +57,7 @@ let
     pre-commit
 
     poetry
+    poetryPlugins.poetry-plugin-shell
     uv
     rustup
     nodejs
