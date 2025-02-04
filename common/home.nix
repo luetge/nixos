@@ -92,6 +92,18 @@ let
   ];
   homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
   personalFolder = "~/personal/";
+  sessionVariables = {
+    HISTSIZE = "5000";
+    SAVEHIST = "5000";
+    EDITOR = "vim";
+    LESSCHARSET = "utf-8";
+    PAGER = "less -R";
+    TERM = "xterm-256color";
+    CLICOLOR = "1";
+    LC_ALL = "en_US.UTF-8";
+    LANG = "en_US.UTF-8";
+    LIBRARY_PATH = "${homeDirectory}/.nix-profile/lib";
+  };
 in
 {
   imports = [ sops-nix.homeManagerModules.sops ];
@@ -121,17 +133,7 @@ in
       ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
       ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
     };
-    sessionVariables = {
-      HISTSIZE = "5000";
-      SAVEHIST = "5000";
-      EDITOR = "vim";
-      LESSCHARSET = "utf-8";
-      PAGER = "less -R";
-      TERM = "xterm-256color";
-      CLICOLOR = "1";
-      LC_ALL = "en_US.UTF-8";
-      LANG = "en_US.UTF-8";
-    };
+    sessionVariables = sessionVariables;
   };
   fonts.fontconfig.enable = true;
 
@@ -172,7 +174,9 @@ in
     };
     zsh = {
       enable = true;
-      initExtra = builtins.readFile ../dotfiles/.zshrc;
+      initExtra =
+        (builtins.readFile ../dotfiles/.zshrc) + "\nexport LIBRARY_PATH=${homeDirectory}/.nix-profile/lib";
+      sessionVariables = sessionVariables;
       syntaxHighlighting.enable = true;
       history = {
         extended = true;
