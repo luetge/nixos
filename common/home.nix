@@ -64,7 +64,6 @@ let
     samply
     pgadmin
     cmake
-    azure-cli
     yq
 
     python313
