@@ -23,6 +23,7 @@
       "docker"
       "expressvpn"
       "font-mplus-nerd-font"
+      "font-museo"
       "google-chrome"
       "microsoft-auto-update"
       "microsoft-office"

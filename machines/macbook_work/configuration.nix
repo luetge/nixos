@@ -44,7 +44,7 @@ base
   ids.gids.nixbld = 350;
   nix = base.nix // {
     linux-builder = {
-      enable = false; # TODO: enable again
+      enable = true;
       maxJobs = 10;
     };
   };

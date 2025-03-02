@@ -33,7 +33,7 @@ let
     moreutils
     ack
     coreutils
-    libiconv
+    # libiconv
     findutils
     openssh
     xz
@@ -254,13 +254,15 @@ in
       in
       {
         enable = true;
-        extensions = extensions;
-        mutableExtensionsDir = false;
-        userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
-          "remote.SSH.defaultExtensions" = map (
-            ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
-          ) extensions;
+        profiles.default = {
+          extensions = extensions;
+          userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+            "remote.SSH.defaultExtensions" = map (
+              ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
+            ) extensions;
+          };
         };
+        mutableExtensionsDir = false;
       };
 
     neovim = {

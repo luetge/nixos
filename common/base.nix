@@ -25,7 +25,6 @@
     };
 
     package = pkgs.nixVersions.latest;
-    configureBuildUsers = true;
 
     settings = {
       experimental-features = "nix-command flakes";
@@ -59,7 +58,6 @@
       ) "x86_64-darwin aarch64-darwin";
     };
   };
-  services.nix-daemon.enable = true;
 
   nixpkgs = {
     config.allowUnfree = true;
