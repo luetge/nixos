@@ -68,6 +68,7 @@ let
 
     python313
     nerd-fonts.fira-code
+    marimo
 
     devenv
 
@@ -271,16 +272,16 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = false;
-      coc = {
-        enable = true;
-      };
+      # coc = {
+      #   enable = true;
+      # };
       extraConfig = builtins.readFile ../dotfiles/.vimrc;
       plugins = with pkgs.vimPlugins; [
         coc-fzf
         fzf-vim
         fugitive
         vim-polyglot
-        coc-nvim
+        # coc-nvim
         vim-jsonnet
         vim-hybrid-material
       ];

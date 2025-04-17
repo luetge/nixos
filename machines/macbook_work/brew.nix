@@ -10,8 +10,12 @@
     taps = [
       "homebrew/bundle"
       "homebrew/cask-fonts"
+      "azure/azd"
     ];
-    brews = [ ];
+    brews = [
+      "libomp"
+      "azd"
+    ];
     masApps = {
       "Save to Pocket" = 1477385213;
       "Todoist: To-Do List & Tasks" = 585829637;
@@ -23,7 +27,6 @@
       "docker"
       "expressvpn"
       "font-mplus-nerd-font"
-      "font-museo"
       "google-chrome"
       "microsoft-auto-update"
       "microsoft-office"
