@@ -34,7 +34,7 @@
       flake-utils,
       sops-nix,
       pre-commit-hooks,
-    }:
+    }@inputs:
     let
       inherit (darwin.lib) darwinSystem;
       user = "dlutgehet";
@@ -104,7 +104,7 @@
 
           modules = [ ./common/home.nix ];
           extraSpecialArgs = {
-            inherit user sops-nix;
+            inherit user sops-nix inputs;
             isWorkMachine = true;
             noSystemInstall = true;
           };

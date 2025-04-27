@@ -24,6 +24,8 @@
       options = "--delete-older-than 30d";
     };
 
+    nixPath = [ "nixpkgs=${nixpkgs}" ];
+
     package = pkgs.nixVersions.latest;
 
     settings = {

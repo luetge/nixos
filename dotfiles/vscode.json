@@ -19,7 +19,20 @@
   "git.ignoreMissingGitWarning": true,
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
-  "nix.serverPath": "nil",
+  "nix.serverPath": "nixd",
+  "nix.serverSettings": {
+    "nixpkgs": {
+      "expr": "import <nixpkgs> { }"
+    },
+    "nixd": {
+      "formatting": {
+        "command": [ "nixfmt" ]
+      },
+      "nixpkgs": {
+        "expr": "import <nixpkgs> { }"
+      }
+    }
+  },
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
@@ -54,5 +67,6 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "python.locator": "js"
+  "python.locator": "js",
+  "rust-analyzer.cargo.targetDir": true
 }

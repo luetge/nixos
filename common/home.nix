@@ -43,7 +43,6 @@ let
     pcre2
     gettext
     nixfmt-rfc-style
-    nil
     nixd
     manix
     rage
@@ -69,6 +68,7 @@ let
     python313
     nerd-fonts.fira-code
     marimo
+    nix-output-monitor
 
     devenv
 
