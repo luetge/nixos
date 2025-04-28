@@ -174,7 +174,7 @@ in
     };
     zsh = {
       enable = true;
-      initExtra =
+      initContent =
         (builtins.readFile ../dotfiles/.zshrc) + "\nexport LIBRARY_PATH=${homeDirectory}/.nix-profile/lib";
       sessionVariables = sessionVariables;
       syntaxHighlighting.enable = true;
