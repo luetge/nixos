@@ -255,12 +255,27 @@ in
       in
       {
         enable = true;
-        profiles.default = {
-          extensions = extensions;
-          userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
-            "remote.SSH.defaultExtensions" = map (
-              ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
-            ) extensions;
+        profiles = {
+          default = {
+            extensions =
+              extensions
+              ++ (with pkgs.vscode-extensions; [
+                github.copilot
+                github.copilot-chat
+              ]);
+            userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+              "remote.SSH.defaultExtensions" = map (
+                ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
+              ) extensions;
+            };
+          };
+          personal = {
+            extensions = extensions;
+            userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+              "remote.SSH.defaultExtensions" = map (
+                ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
+              ) extensions;
+            };
           };
         };
         mutableExtensionsDir = false;

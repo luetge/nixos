@@ -16,50 +16,35 @@
       "/share/nix-direnv"
       "/share/zsh"
     ];
+    etc."nix/nix.custom.conf".text = pkgs.lib.mkForce ''
+      allow-import-from-derivation = true
+      allowed-users = *
+      auto-optimise-store = false
+      build-users-group = nixbld
+      builders-use-substitutes = true
+      cores = 0
+      experimental-features = nix-command flakes
+      http-connections = 128
+      keep-derivations = true
+      keep-outputs = true
+      max-jobs = auto
+      max-substitution-jobs = 128
+      require-sigs = true
+      sandbox = false
+      sandbox-fallback = false
+      substituters = https://cache.nixos.org/ https://cache.garnix.io https://cache.nixos.org/
+      system-features = kvm nixos-test benchmark big-parallel hvf
+      trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+      trusted-substituters =
+      trusted-users = @admin dlutgehet root
+      warn-dirty = false
+      extra-platforms = x86_64-darwin aarch64-darwin
+      extra-sandbox-paths =
+      lazy-trees = true
+    '';
   };
 
-  nix = {
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 30d";
-    };
-
-    nixPath = [ "nixpkgs=${nixpkgs}" ];
-
-    package = pkgs.nixVersions.latest;
-
-    settings = {
-      experimental-features = "nix-command flakes";
-      auto-optimise-store = false;
-      keep-outputs = true;
-      keep-derivations = true;
-      warn-dirty = false;
-      build-users-group = "nixbld";
-      builders-use-substitutes = true;
-      allow-import-from-derivation = true;
-      http-connections = 128;
-      max-substitution-jobs = 128;
-      trusted-users = [
-        "@admin"
-        user
-      ];
-      substituters = [
-        "https://cache.nixos.org/"
-        "https://cache.garnix.io"
-      ];
-      trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
-      system-features = [
-        "kvm"
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "hvf"
-      ];
-      extra-platforms = lib.optionalString (
-        pkgs.system == "aarch64-darwin"
-      ) "x86_64-darwin aarch64-darwin";
-    };
-  };
+  nix.enable = false;
 
   nixpkgs = {
     config.allowUnfree = true;

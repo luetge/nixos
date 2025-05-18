@@ -72,11 +72,11 @@ let
         trap cleanup EXIT
 
         if test -f "./flake.nix"; then
-          ${
+          sudo ${
             darwin.packages.${system}.darwin-rebuild
           }/bin/darwin-rebuild switch --flake .#dlutgehet-work-macbook
         else
-          ${
+          sudo ${
             darwin.packages.${system}.darwin-rebuild
           }/bin/darwin-rebuild switch --flake github:luetge/nixos#dlutgehet-work-macbook
         fi

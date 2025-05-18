@@ -42,26 +42,14 @@ base
   };
 
   ids.gids.nixbld = 350;
-  nix = base.nix // {
-    linux-builder = {
-      enable = true;
-      # systems = ["x86_64-linux" "aarch64-linux"];
-      # package = pkgs.darwin.linux-builder-x86_64;
-      # config.boot.binfmt.emulatedSystems = ["x86_64-linux"];
-      # ephemeral = true;
-      # systems = [
-      #   "x86_64-linux"
-      #   "aarch64-linux"
-      # ];
-      maxJobs = 10;
-    };
-  };
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
   };
 
   system.stateVersion = 5;
+
+  system.primaryUser = user;
 
   environment = base.environment // {
     systemPackages = base.environment.systemPackages ++ [ system-update ];
@@ -119,7 +107,7 @@ base
 
   # Apply settings on activation.
   # See https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
-  system.activationScripts.postUserActivation.text = ''
+  system.activationScripts.postActivateSettings.text = ''
     # Following line should allow us to avoid a logout/login cycle
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     killall Dock
