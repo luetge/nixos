@@ -21,7 +21,7 @@ let
   system-update = pkgs.writeShellScriptBin "system-update" (
     if pkgs.stdenv.isDarwin then
       ''
-        darwin-rebuild switch --flake github:luetge/nixos
+        sudo darwin-rebuild switch --flake github:luetge/nixos
       ''
     else
       ''exit "not implemented yet"''
