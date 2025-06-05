@@ -69,6 +69,7 @@ let
     nerd-fonts.fira-code
     marimo
     nix-output-monitor
+    ffmpeg
 
     devenv
 
