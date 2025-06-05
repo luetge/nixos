@@ -64,6 +64,7 @@ let
     pgadmin
     cmake
     yq
+    boost.dev
 
     python313
     nerd-fonts.fira-code
@@ -241,6 +242,7 @@ in
           oderwat.indent-rainbow
           mkhl.direnv
           rust-lang.rust-analyzer
+          github.copilot
           charliermarsh.ruff
           humao.rest-client
           extra_pkgs.ms-toolsai--vscode-ai

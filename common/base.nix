@@ -22,7 +22,12 @@
     enable = true;
     gc = {
       automatic = true;
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 15d";
+      interval = {
+        Weekday = 0;
+        Hour = 0;
+        Minute = 0;
+      };
     };
 
     nixPath = [ "nixpkgs=${nixpkgs}" ];
@@ -31,7 +36,7 @@
 
     settings = {
       experimental-features = "nix-command flakes";
-      auto-optimise-store = false;
+      auto-optimise-store = true;
       keep-outputs = true;
       keep-derivations = true;
       warn-dirty = false;
