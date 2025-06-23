@@ -22,6 +22,22 @@ let
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
   '';
+  tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "tweag";
+      name = "vscode-nickel";
+      version = "0.5.0";
+      hash = "sha256-FmpjscJ/Iq4bmjmMPZypNd1DbsXkNBLXbImrkW+Y5KY=";
+    };
+  };
+  copilot-chat = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "GitHub";
+      name = "copilot-chat";
+      version = "0.29.2025061302";
+      hash = "sha256-6qZTR6IoOko0oVGmlS2DtuupgbW5uK0Fw37ejSKIYIA=";
+    };
+  };
   user-packages = with pkgs; [
     rsync
     stow
@@ -51,9 +67,12 @@ let
     _1password-cli
     ruff
     pam-reattach
-    # azure-cli
+    azure-cli
     signal-export
     pre-commit
+
+    nickel
+    nls
 
     poetry
     poetryPlugins.poetry-plugin-shell
@@ -66,7 +85,7 @@ let
     yq
     boost.dev
 
-    python313
+    (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
     marimo
     nix-output-monitor
@@ -240,8 +259,10 @@ in
           jnoortheen.nix-ide
           usernamehw.errorlens
           oderwat.indent-rainbow
+          copilot-chat
           mkhl.direnv
           rust-lang.rust-analyzer
+          tweag-nickel
           github.copilot
           charliermarsh.ruff
           humao.rest-client
