@@ -84,6 +84,7 @@ let
     pgadmin
     yq
     openmpi.dev
+    poethepoet
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
