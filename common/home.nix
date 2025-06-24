@@ -66,6 +66,7 @@ let
     docker
     _1password-cli
     ruff
+    mypy
     pam-reattach
     azure-cli
     signal-export
@@ -81,9 +82,8 @@ let
     nodejs
     samply
     pgadmin
-    cmake
     yq
-    boost.dev
+    openmpi.dev
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code

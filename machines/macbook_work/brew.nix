@@ -15,6 +15,8 @@
     brews = [
       "libomp"
       "azd"
+      "boost"
+      "cmake"
     ];
     masApps = {
       "Todoist: To-Do List & Tasks" = 585829637;
