@@ -66,6 +66,7 @@ let
     docker
     _1password-cli
     ruff
+    ty
     mypy
     pam-reattach
     azure-cli
@@ -148,6 +149,7 @@ in
       ".bash_profile".source = ../dotfiles/.bash_profile;
       ".config/zed/settings.json".source = ../dotfiles/zed.json;
       ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
+      ".ssh/id_ed25519_work_laptop.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_laptop.pub;
       ".ssh/id_ed25519_work_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
       ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
       ".ssh/id_ed25519_personal_github.pub".source =
