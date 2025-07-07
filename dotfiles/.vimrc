@@ -237,9 +237,6 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 " }}}
 
 " Mappings {{{
-" in insert mode press F2 and paste (no indenting,...)
-set pastetoggle=<F2>
-
 let mapleader="\\"
 
 " :w!! zum Speichern mit Admin-Rechten
