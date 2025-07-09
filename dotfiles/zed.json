@@ -41,6 +41,14 @@
                     }
                 }
             ]
+        },
+        "Nix": {
+            "formatter": {
+                "external": {
+                    "command": "nixfmt",
+                    "arguments": ["--quiet", "--"]
+                }
+            }
         }
     },
     "lsp": {
