@@ -4,6 +4,7 @@
   nixpkgs,
   user,
   sops-nix,
+  config,
   ...
 }:
 let
@@ -14,6 +15,7 @@ let
       nixpkgs
       user
       sops-nix
+      config
       ;
     isWorkMachine = true;
   };

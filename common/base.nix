@@ -5,9 +5,15 @@
   user,
   isWorkMachine,
   sops-nix,
+  config,
   ...
 }:
+let
+  homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
+in
 {
+
+  imports = [ sops-nix.darwinModules.sops ];
 
   # System packages
   environment = {
@@ -16,6 +22,17 @@
       "/share/nix-direnv"
       "/share/zsh"
     ];
+  };
+
+  sops = {
+    age.sshKeyPaths = [ "${homeDirectory}/.ssh/id_ed25519_nixos_key" ];
+    defaultSopsFile = ../.sops.yaml;
+    secrets = {
+      nix-config = {
+        sopsFile = ../secrets/nix-config;
+        format = "binary";
+      };
+    };
   };
 
   nix = {
@@ -84,6 +101,11 @@
         pkgs.system == "aarch64-darwin"
       ) "x86_64-darwin x86_64-linux aarch64-darwin";
     };
+
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      !include ${config.sops.secrets.nix-config.path}
+    '';
   };
 
   nixpkgs = {
