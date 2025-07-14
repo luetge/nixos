@@ -68,7 +68,6 @@ let
     ruff
     ty
     mypy
-    pam-reattach
     azure-cli
     signal-export
     pre-commit
