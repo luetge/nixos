@@ -277,6 +277,7 @@ in
           # github.remotehub
           github.vscode-github-actions
           esbenp.prettier-vscode
+          ms-python.debugpy
         ];
       in
       {
