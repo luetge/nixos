@@ -71,6 +71,7 @@ let
     azure-cli
     signal-export
     pre-commit
+    cmake
 
     nickel
     nls

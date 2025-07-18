@@ -53,6 +53,10 @@
     },
     "lsp": {
         "rust-analyzer": {
+            "binary": {
+                "path": "/Users/dlutgehet/.nix-profile/bin/rust-analyzer",
+                "arguments": []
+            },
             "initialization_options": {
                 "rust": {
                     "analyzerTargetDir": ".rust-analyzer-dir"
