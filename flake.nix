@@ -116,7 +116,8 @@
           inherit git-hooks;
           dlutgehet-work-macbook-cache = dlutgehet-home-config.activationPackage; # TODO: Fix and replace by darwinConfigurations.dlutgehet-work-macbook.system
           default = scripts.install;
-        } // scripts;
+        }
+        // scripts;
         checks = {
           inherit git-hooks;
         };

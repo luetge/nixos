@@ -22,6 +22,14 @@ let
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
   '';
+  astral-sh--ty = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "astral-sh";
+      name = "ty";
+      version = "2025.31.12061409";
+      hash = "sha256-DqtavW81rUh9HHfLchLV74YW0dZwGBhc+pngerZH2iw=";
+    };
+  };
   tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       publisher = "tweag";
@@ -266,6 +274,7 @@ in
           mkhl.direnv
           rust-lang.rust-analyzer
           tweag-nickel
+          astral-sh--ty
           github.copilot
           charliermarsh.ruff
           humao.rest-client
