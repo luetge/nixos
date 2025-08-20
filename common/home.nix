@@ -42,8 +42,16 @@ let
     mktplcRef = {
       publisher = "GitHub";
       name = "copilot-chat";
-      version = "0.29.2025061302";
-      hash = "sha256-6qZTR6IoOko0oVGmlS2DtuupgbW5uK0Fw37ejSKIYIA=";
+      version = "0.30.0";
+      hash = "sha256-a7HYr2Z4IaZUmGty4LAVcQdtAEDbCPCWpyoGPYAm3eM=";
+    };
+  };
+  copilot = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "GitHub";
+      name = "copilot";
+      version = "1.353.1723";
+      hash = "sha256-YtpSo8W94Jmt58qbLh97T1H7VZQUxnaZ4L7wp1fSMvQ=";
     };
   };
   user-packages = with pkgs; [
@@ -75,11 +83,11 @@ let
     _1password-cli
     ruff
     ty
+    pyright
     mypy
     azure-cli
     signal-export
     pre-commit
-    cmake
 
     nickel
     nls
@@ -271,11 +279,11 @@ in
           usernamehw.errorlens
           oderwat.indent-rainbow
           copilot-chat
+          copilot
           mkhl.direnv
           rust-lang.rust-analyzer
           tweag-nickel
-          astral-sh--ty
-          github.copilot
+          # astral-sh--ty
           charliermarsh.ruff
           humao.rest-client
           extra_pkgs.ms-toolsai--vscode-ai
