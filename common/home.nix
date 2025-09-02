@@ -342,11 +342,11 @@ in
     };
     ssh = {
       enable = true;
-      compression = true;
-      forwardAgent = true;
       matchBlocks = {
         # On macOS, add 1password SSH keys
         "*" = {
+          forwardAgent = true;
+          compression = true;
           extraOptions =
             if pkgs.stdenv.isDarwin then
               { IdentityAgent = "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"; }
