@@ -83,8 +83,6 @@ let
     _1password-cli
     ruff
     ty
-    pyright
-    mypy
     azure-cli
     signal-export
     pre-commit
@@ -191,6 +189,13 @@ in
         };
       in
       pkgs.lib.mapAttrs toSecret (builtins.readDir ../secrets);
+  };
+
+  services.ollama = {
+    enable = true;
+    # loadModels = [
+    #   "qwen2.5-coder-7b"
+    # ];
   };
 
   programs = {
@@ -342,6 +347,7 @@ in
     };
     ssh = {
       enable = true;
+      enableDefaultConfig = false;
       matchBlocks = {
         # On macOS, add 1password SSH keys
         "*" = {

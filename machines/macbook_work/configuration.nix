@@ -49,6 +49,45 @@ base
     hostPlatform = "aarch64-darwin";
   };
 
+  determinate-nix.customSettings = {
+    keep-outputs = true;
+    keep-derivations = true;
+    warn-dirty = false;
+    build-users-group = "nixbld";
+    builders-use-substitutes = true;
+    allow-import-from-derivation = true;
+    http-connections = 128;
+    max-substitution-jobs = 128;
+    trusted-users = [
+      "@admin"
+      "root"
+      user
+    ];
+    allowed-users = [
+      "@admin"
+      "root"
+      user
+    ];
+    substituters = [
+      "https://cache.nixos.org/"
+      "https://cache.garnix.io"
+    ];
+    trusted-public-keys = [
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "cache.nixos.org:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
+    system-features = [
+      "kvm"
+      "nixos-test"
+      "benchmark"
+      "big-parallel"
+      "hvf"
+    ];
+    extra-platforms = lib.optionalString (
+      pkgs.system == "aarch64-darwin"
+    ) "x86_64-darwin x86_64-linux aarch64-darwin";
+  };
+
   system.stateVersion = 5;
 
   system.primaryUser = user;

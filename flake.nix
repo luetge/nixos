@@ -8,6 +8,7 @@
     # Environment/system management
     darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.8.6";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -34,6 +35,7 @@
       flake-utils,
       sops-nix,
       pre-commit-hooks,
+      determinate,
     }@inputs:
     let
       inherit (darwin.lib) darwinSystem;
@@ -46,6 +48,7 @@
           darwinSystem {
             inherit system;
             modules = [
+              determinate.darwinModules.default
               ./machines/macbook_work/configuration.nix
               home-manager.darwinModules.home-manager
             ];
