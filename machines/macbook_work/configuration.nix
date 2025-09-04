@@ -23,6 +23,7 @@ let
   system-update = pkgs.writeShellScriptBin "system-update" (
     if pkgs.stdenv.isDarwin then
       ''
+        sudo determinate-nixd upgrade
         sudo darwin-rebuild switch --flake github:luetge/nixos
       ''
     else
@@ -74,7 +75,7 @@ base
     ];
     trusted-public-keys = [
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      "cache.nixos.org:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
     system-features = [
       "kvm"
