@@ -86,6 +86,7 @@ let
     azure-cli
     signal-export
     pre-commit
+    awscli
 
     nickel
     nls
@@ -106,6 +107,7 @@ let
     marimo
     nix-output-monitor
     ffmpeg
+    ffmpeg.dev
 
     devenv
 
