@@ -26,7 +26,7 @@
       "1password"
       "blackhole-2ch"
       "expressvpn"
-      "font-mplus-nerd-font"
+      "font-m+-nerd-font"
       "google-chrome"
       "microsoft-auto-update"
       "microsoft-office"

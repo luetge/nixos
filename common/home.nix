@@ -101,6 +101,7 @@ let
     yq
     openmpi.dev
     poethepoet
+    claude-code
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
