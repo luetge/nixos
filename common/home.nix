@@ -383,25 +383,6 @@ in
         }
       ];
 
-      aliases = {
-        l = "log --pretty=oneline -n 20 --graph --abbrev-commit";
-        l1 = "log --pretty=oneline -n 1";
-
-        # View the current working tree status using the short format
-        s = "status -s";
-
-        # Show the diff between the latest commit and the current state
-        d = "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat";
-
-        # Pull in remote changes for the current repository and all its submodules
-        p = "!git pull; git submodule update --remote";
-
-        # Commit all changes
-        ca = "!git add -A && git commit -av";
-
-        # Switch to a branch, creating it if necessary
-        go = ''!f() { git checkout -b "$1" 2> /dev/null || git checkout "$1"; }; f'';
-      };
       lfs.enable = true;
       extraConfig = {
         init = {
@@ -414,6 +395,25 @@ in
         push.autoSetupRemote = true;
         gpg.format = "ssh";
         "gpg \"ssh\"".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        alias = {
+          l = "log --pretty=oneline -n 20 --graph --abbrev-commit";
+          l1 = "log --pretty=oneline -n 1";
+
+          # View the current working tree status using the short format
+          s = "status -s";
+
+          # Show the diff between the latest commit and the current state
+          d = "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat";
+
+          # Pull in remote changes for the current repository and all its submodules
+          p = "!git pull; git submodule update --remote";
+
+          # Commit all changes
+          ca = "!git add -A && git commit -av";
+
+          # Switch to a branch, creating it if necessary
+          go = ''!f() { git checkout -b "$1" 2> /dev/null || git checkout "$1"; }; f'';
+        };
 
         core = {
           # Use custom `.gitignore` and `.gitattributes`
