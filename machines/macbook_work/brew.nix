@@ -25,6 +25,7 @@
     casks = [
       "1password"
       "blackhole-2ch"
+      "docker"
       "expressvpn"
       "font-m+-nerd-font"
       "google-chrome"

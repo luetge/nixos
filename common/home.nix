@@ -384,7 +384,7 @@ in
       ];
 
       lfs.enable = true;
-      extraConfig = {
+      settings = {
         init = {
           defaultBranch = "main";
         };
