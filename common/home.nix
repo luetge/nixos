@@ -42,8 +42,8 @@ let
     mktplcRef = {
       publisher = "GitHub";
       name = "copilot-chat";
-      version = "0.32.2025100302";
-      hash = "sha256-COPr+d4E5/20H+z2ms4Ay5Lbny4fODTzWaEL6uWM2kc=";
+      version = "0.33.2025110701";
+      hash = "sha256-COPr+d4E5/20H+z2ms4Ay6Lbny4fODTzWaEL6uWM2kc=";
     };
   };
   copilot = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
