@@ -22,28 +22,12 @@ let
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
   '';
-  astral-sh--ty = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-    mktplcRef = {
-      publisher = "astral-sh";
-      name = "ty";
-      version = "2025.31.12061409";
-      hash = "sha256-DqtavW81rUh9HHfLchLV74YW0dZwGBhc+pngerZH2iw=";
-    };
-  };
-  tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-    mktplcRef = {
-      publisher = "tweag";
-      name = "vscode-nickel";
-      version = "0.5.0";
-      hash = "sha256-FmpjscJ/Iq4bmjmMPZypNd1DbsXkNBLXbImrkW+Y5KY=";
-    };
-  };
   copilot-chat = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       publisher = "GitHub";
       name = "copilot-chat";
-      version = "0.33.2025110701";
-      hash = "sha256-COPr+d4E5/20H+z2ms4Ay6Lbny4fODTzWaEL6uWM2kc=";
+      version = "v0.33.2025102704";
+      hash = "sha256-COPr+d4E5/20H+z2ms4Ay5Lbny5fODTzWaEL6uWM2kc=";
     };
   };
   copilot = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
@@ -52,6 +36,15 @@ let
       name = "copilot";
       version = "1.353.1723";
       hash = "sha256-YtpSo8W94Jmt58qbLh97T1H7VZQUxnaZ4L7wp1fSMvQ=";
+    };
+  };
+
+  tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "tweag";
+      name = "vscode-nickel";
+      version = "0.5.0";
+      hash = "sha256-FmpjscJ/Iq4bmjmMPZypNd1DbsXkNBLXbImrkW+Y5KY=";
     };
   };
   user-packages = with pkgs; [
@@ -286,8 +279,6 @@ in
           jnoortheen.nix-ide
           usernamehw.errorlens
           oderwat.indent-rainbow
-          copilot-chat
-          copilot
           mkhl.direnv
           rust-lang.rust-analyzer
           tweag-nickel
@@ -301,6 +292,8 @@ in
           github.vscode-pull-request-github
           # github.remotehub
           github.vscode-github-actions
+          copilot
+          copilot-chat
           esbenp.prettier-vscode
           ms-python.debugpy
         ];
@@ -309,15 +302,7 @@ in
         enable = true;
         profiles = {
           default = {
-            extensions = extensions;
-            userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
-              "remote.SSH.defaultExtensions" = map (
-                ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
-              ) extensions;
-            };
-          };
-          personal = {
-            extensions = extensions;
+            # extensions = extensions;
             userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
               "remote.SSH.defaultExtensions" = map (
                 ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
@@ -325,7 +310,7 @@ in
             };
           };
         };
-        mutableExtensionsDir = false;
+        mutableExtensionsDir = true;
       };
 
     neovim = {
