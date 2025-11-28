@@ -80,6 +80,7 @@ let
     signal-export
     pre-commit
     awscli
+    gh
 
     nickel
     nls
@@ -90,7 +91,6 @@ let
     rustup
     nodejs
     samply
-    pgadmin
     yq
     openmpi.dev
     poethepoet
@@ -102,6 +102,7 @@ let
     nix-output-monitor
     ffmpeg
     ffmpeg.dev
+    nil
 
     devenv
 
@@ -351,7 +352,7 @@ in
       includes = [ config.sops.secrets.ssh_config.path ];
     };
     git = {
-      package = pkgs.gitAndTools.gitFull;
+      package = pkgs.gitFull;
       enable = true;
 
       includes = [
