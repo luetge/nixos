@@ -3,10 +3,10 @@
 
   inputs = {
     # Package sets
-    nixpkgs.url = "github:nixos/nixpkgs?rev=ba25286d1320f08b7838d7bfc09bf5e9e2802a3f";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # Environment/system management
-    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.url = "github:nix-darwin/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.8.6";
     home-manager.url = "github:nix-community/home-manager";

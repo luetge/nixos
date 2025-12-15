@@ -142,8 +142,8 @@ in
 {
   imports = [ sops-nix.homeManagerModules.sops ];
   nixpkgs.config.allowUnfree = true;
-  nix = {
-    package = lib.mkIf noSystemInstall pkgs.nix;
+  nix = lib.mkIf noSystemInstall {
+    package = pkgs.nix;
     extraOptions = ''
       !include ${config.sops.secrets.nix_tokens.path}
     '';
