@@ -67,5 +67,14 @@ alias t='tmux -2 attach -d || tmux -2 new';
 # Capslock mapping
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc": 0x700000039, "HIDKeyboardModifierMappingDst": 0x7000000E0}]}' > /dev/null || true
 
+cd() {
+  builtin cd "$@"
+  if [[ "$PWD" == "$HOME/personal"* ]]; then
+    export CLAUDE_CONFIG_DIR="$HOME/.claude-personal"
+  else
+    export CLAUDE_CONFIG_DIR="$HOME/.claude-work"
+  fi
+}
+
 # Launch/connect to tmux if needed
 if [ "$TMUX" = "" ]; then t; fi
