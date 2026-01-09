@@ -26,7 +26,7 @@
     },
     "nixd": {
       "formatting": {
-        "command": [ "nixfmt" ]
+        "command": ["nixfmt"]
       },
       "nixpkgs": {
         "expr": "import <nixpkgs> { }"
@@ -38,15 +38,8 @@
     "jupyter-notebook": "left"
   },
   "python.languageServer": "Pylance",
-  "python.linting.flake8Args": [
-    "--max-line-length=88",
-    "--extend-ignore=E203"
-  ],
-  "python.terminal.launchArgs": [
-    "-m",
-    "IPython",
-    "--no-autoindent"
-  ],
+  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
+  "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
   "terminal.integrated.windowsEnableConpty": false,
   "workbench.colorTheme": "Default Dark Modern",
   "extensions.ignoreRecommendations": true,
@@ -69,5 +62,6 @@
   },
   "python.locator": "js",
   "rust-analyzer.cargo.targetDir": true,
-  "files.hotExit": "onExitAndWindowClose"
+  "files.hotExit": "onExitAndWindowClose",
+  "remote.autoForwardPortsSource": "hybrid"
 }
