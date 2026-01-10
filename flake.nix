@@ -49,6 +49,7 @@
             inherit system;
             modules = [
               determinate.darwinModules.default
+              sops-nix.darwinModules.sops
               ./machines/macbook_work/configuration.nix
               home-manager.darwinModules.home-manager
             ];

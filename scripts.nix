@@ -32,6 +32,16 @@ let
     echo ${sops-age-key-file}
     SOPS_AGE_KEY_FILE=${sops-age-key-file} ${pkgs.sops}/bin/sops $1
   '';
+  rotate-secrets = pkgs.writeShellScriptBin "rotate-secrets" ''
+    set -e
+    # ${create-age-key}/bin/create-age-key
+    echo "Rotating all secrets in secrets/ with keys from .sops.yaml"
+    for f in secrets/*; do
+      echo "Updating keys for: $f"
+      SOPS_AGE_KEY_FILE=${sops-age-key-file} ${pkgs.sops}/bin/sops updatekeys -y "$f"
+    done
+    echo "Done! All secrets updated with new keys."
+  '';
   setup-macos = pkgs.writeShellScriptBin "setup-macos" (
     if pkgs.stdenv.isDarwin then
       ''
@@ -88,5 +98,12 @@ let
   );
 in
 {
-  inherit install fmt-srcs edit-secrets;
+  inherit
+    install
+    fmt-srcs
+    edit-secrets
+    rotate-secrets
+    setup-ssh
+    create-age-key
+    ;
 }

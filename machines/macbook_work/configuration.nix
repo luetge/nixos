@@ -144,6 +144,36 @@ base
     shell = pkgs.zsh;
   };
 
+  # SOPS configuration for system-level secrets
+  sops = {
+    age.sshKeyPaths = [ "/Users/${user}/.ssh/id_ed25519_nixos_key" ];
+    defaultSopsFile = ../../.sops.yaml;
+    secrets.github_runner_token = {
+      sopsFile = ../../secrets/github_runner_token;
+      format = "binary";
+    };
+  };
+
+  # GitHub Actions self-hosted runner
+  services.github-runners.work = {
+    enable = true;
+    url = "https://github.com/SheCrea";
+    tokenFile = config.sops.secrets.github_runner_token.path;
+    ephemeral = true;
+    replace = true;
+    extraLabels = [
+      "nix"
+      "macos"
+      "arm64"
+    ];
+    extraPackages = with pkgs; [
+      git
+      gh
+      docker
+      nodejs
+    ];
+  };
+
   # Apply settings on activation.
   # See https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
   system.activationScripts.postActivateSettings.text = ''
