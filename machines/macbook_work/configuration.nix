@@ -144,34 +144,70 @@ base
     shell = pkgs.zsh;
   };
 
-  # SOPS configuration for system-level secrets
-  sops = {
-    age.sshKeyPaths = [ "/Users/${user}/.ssh/id_ed25519_nixos_key" ];
-    defaultSopsFile = ../../.sops.yaml;
-    secrets.github_runner_token = {
-      sopsFile = ../../secrets/github_runner_token;
-      format = "binary";
-    };
-  };
+  # SOPS configuration for system-level secrets (currently unused, kept for future use)
+  # sops = {
+  #   age.sshKeyPaths = [ "/Users/${user}/.ssh/id_ed25519_nixos_key" ];
+  #   defaultSopsFile = ../../.sops.yaml;
+  #   secrets.github_runner_token = {
+  #     sopsFile = ../../secrets/github_runner_token;
+  #     format = "binary";
+  #     mode = "0400";
+  #     owner = user;
+  #   };
+  # };
 
-  # GitHub Actions self-hosted runner
-  services.github-runners.work = {
-    enable = true;
-    url = "https://github.com/SheCrea";
-    tokenFile = config.sops.secrets.github_runner_token.path;
-    ephemeral = true;
-    replace = true;
-    extraLabels = [
-      "nix"
-      "macos"
-      "arm64"
-    ];
-    extraPackages = with pkgs; [
-      git
-      gh
-      docker
-      nodejs
-    ];
+  # Create github-runners directory for the user
+  system.activationScripts.github-runner-dirs.text = ''
+    mkdir -p /Users/${user}/.github-runners/work
+    mkdir -p /Users/${user}/.github-runners/_work/work
+    chown -R ${user}:staff /Users/${user}/.github-runners
+  '';
+
+  # GitHub Actions self-hosted runner (custom launchd, bypasses nix.enable requirement)
+  # Using LaunchAgents (user-level) instead of LaunchDaemons (root) because runner refuses to run as root
+  # NOTE: Runner must be registered manually first:
+  #   cd ~/.github-runners/work
+  #   ./config.sh --url https://github.com/SheCrea --token "TOKEN_FROM_GITHUB_UI" --name "dlutgehet-work-macbook" --labels "nix,macos,arm64" --work ~/.github-runners/_work/work
+  launchd.user.agents.github-runner-work = {
+    script = ''
+      set -e
+      RUNNER_DIR="$HOME/.github-runners/work"
+
+      # Ensure directory exists
+      mkdir -p "$RUNNER_DIR"
+
+      cd "$RUNNER_DIR"
+
+      # Check if runner is configured
+      if [ ! -f ".runner" ]; then
+        echo "Runner not configured. Please run config.sh manually first."
+        echo "See: https://github.com/organizations/SheCrea/settings/actions/runners/new"
+        exit 1
+      fi
+
+      # Run the runner
+      exec ./run.sh
+    '';
+    serviceConfig = {
+      KeepAlive = true;
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/github-runner-work.log";
+      StandardErrorPath = "/tmp/github-runner-work.err";
+      EnvironmentVariables = {
+        HOME = "/Users/${user}";
+        PATH = "${
+          pkgs.lib.makeBinPath [
+            pkgs.git
+            pkgs.gh
+            pkgs.docker
+            pkgs.nodejs
+            pkgs.coreutils
+            pkgs.curl
+            pkgs.jq
+          ]
+        }:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
   };
 
   # Apply settings on activation.
