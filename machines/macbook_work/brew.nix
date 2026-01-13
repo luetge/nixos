@@ -38,7 +38,6 @@
       "vlc"
       "firefox"
       "zoom"
-      "maccy"
       "figma"
       "remarkable"
       "steam"

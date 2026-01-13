@@ -24,7 +24,7 @@ let
   '';
   fmt-srcs = pkgs.writeShellScriptBin "fmt-srcs" ''
     set -e
-    ${pkgs.nixfmt-rfc-style}/bin/nixfmt `find . -type f -name '*.nix'` --check || ${pkgs.nixfmt-rfc-style}/bin/nixfmt `find . -type f -name '*.nix'`
+    ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'` --check || ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'`
   '';
   edit-secrets = pkgs.writeShellScriptBin "edit-secrets" ''
     set -e

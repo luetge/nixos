@@ -67,7 +67,7 @@ let
     openssl
     pcre2
     gettext
-    nixfmt-rfc-style
+    nixfmt
     nixd
     manix
     rage
@@ -175,6 +175,8 @@ in
   sops = {
     age.sshKeyPaths = [ "${homeDirectory}/.ssh/id_ed25519_nixos_key" ];
     defaultSopsFile = ../.sops.yaml;
+    # Fix: include system PATH for getconf (needed on macOS to find DARWIN_USER_TEMP_DIR)
+    environment.PATH = lib.mkForce "/usr/bin:/bin:/usr/sbin:/sbin";
     # Read all files as binary secret files and make them
     # available as config.sops.secrets.`filename`
     secrets =

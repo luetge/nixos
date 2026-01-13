@@ -335,26 +335,6 @@ base
       "NSStatusItem Visible Bluetooth" = 1;
       "NSStatusItem Visible Sound" = 1;
     };
-
-    # Maccy
-    "org.p0deje.Maccy" = {
-      SUAutomaticallyUpdate = 1;
-      SUEnableAutomaticChecks = 1;
-      SUHasLaunchedBefore = 1;
-      KeyboardShortcuts_popup = ''{"carbonKeyCode":9,"carbonModifiers":768}'';
-      searchMode = "fuzzy";
-      previewDelay = 300;
-      maxMenuItemLength = 75;
-      menuIcon = "clipboard";
-      ignoredApps = [ "com.1password.1password" ];
-      ignoredPasteboardTypes = [
-        "Pasteboard generator type"
-        "net.antelle.keeweb"
-        "de.petermaurer.TransientPasteboardType"
-        "com.agilebits.onepassword"
-        "com.typeit4me.clipping"
-      ];
-    };
   };
 }
 // (import ./brew.nix { })
