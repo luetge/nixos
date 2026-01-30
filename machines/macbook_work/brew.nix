@@ -26,7 +26,7 @@
       "1password"
       "blackhole-2ch"
       "docker-desktop"
-      "expressvpn"
+      # "expressvpn"
       "font-m+-nerd-font"
       "google-chrome"
       "microsoft-auto-update"

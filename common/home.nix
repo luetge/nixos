@@ -11,6 +11,14 @@
 
 let
   extra_pkgs = import ../overlays/pkgs.nix { inherit pkgs; };
+  claude-wrapper = pkgs.writeShellScriptBin "claude" ''
+    if [[ "$PWD" == "$HOME/personal"* ]]; then
+      export CLAUDE_CONFIG_DIR="$HOME/.claude-personal"
+    else
+      export CLAUDE_CONFIG_DIR="$HOME/.claude-work"
+    fi
+    exec ${pkgs.claude-code}/bin/claude "$@"
+  '';
   safe-reattach-to-user-namespace =
     if pkgs.stdenv.isDarwin then
       pkgs.reattach-to-user-namespace
@@ -94,7 +102,7 @@ let
     yq
     openmpi.dev
     poethepoet
-    claude-code
+    claude-wrapper
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
@@ -116,6 +124,7 @@ let
     grex
     watchexec
     ripgrep
+    hdf5
 
     compress-pdf
 
