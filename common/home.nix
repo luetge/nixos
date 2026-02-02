@@ -125,6 +125,7 @@ let
     watchexec
     ripgrep
     hdf5
+    cmake
 
     compress-pdf
 

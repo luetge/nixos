@@ -3,5 +3,6 @@ builds:
     - "*.x86_64-linux.*"
     - "*.aarch64-darwin.*"
     - nixosConfigurations.*
+    - darwinConfigurations.*
     - defaultPackage.x86_64-linux
     - devShell.x86_64-linux
