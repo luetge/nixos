@@ -50,7 +50,7 @@ base
     hostPlatform = "aarch64-darwin";
   };
 
-  determinate-nix.customSettings = {
+  determinateNix.customSettings = {
     keep-outputs = true;
     keep-derivations = true;
     warn-dirty = false;
