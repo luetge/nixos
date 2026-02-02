@@ -86,7 +86,6 @@ let
     ty
     azure-cli
     signal-export
-    pre-commit
     awscli
     gh
 
