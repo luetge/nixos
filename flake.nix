@@ -6,7 +6,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
 
     # Environment/system management
-    darwin.url = "github:nix-darwin/nix-darwin/master";
+    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.8.6";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
