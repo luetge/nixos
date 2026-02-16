@@ -124,7 +124,7 @@ let
     grex
     watchexec
     ripgrep
-    hdf5
+    hdf5.dev
     cmake
 
     compress-pdf
