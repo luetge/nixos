@@ -12,6 +12,7 @@
 let
   extra_pkgs = import ../overlays/pkgs.nix { inherit pkgs; };
   claude-wrapper = pkgs.writeShellScriptBin "claude" ''
+    export DISABLE_INSTALLATION_CHECKS=1
     if [[ "$PWD" == "$HOME/personal"* ]]; then
       export CLAUDE_CONFIG_DIR="$HOME/.claude-personal"
     else

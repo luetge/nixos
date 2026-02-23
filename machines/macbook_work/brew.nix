@@ -17,6 +17,7 @@
       "azd"
       "boost"
       "cmake"
+      "git-lfs"
     ];
     masApps = {
       "Todoist: To-Do List & Tasks" = 585829637;
