@@ -178,6 +178,9 @@ in
         ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
       ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
       ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
+      # Claude Code MCP server settings
+      ".claude-personal/settings.json".source = ../dotfiles/claude-settings.json;
+      ".claude-work/settings.json".source = ../dotfiles/claude-settings.json;
     };
     sessionVariables = sessionVariables;
   };
