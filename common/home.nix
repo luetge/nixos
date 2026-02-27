@@ -90,7 +90,7 @@ let
     pre-commit
     awscli
     gh
-    jujutsu
+    # jujutsu is configured via programs.jujutsu below
 
     nickel
     nls
@@ -149,6 +149,8 @@ let
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
     LIBRARY_PATH = "${homeDirectory}/.nix-profile/lib";
+    # Point jj to config directory so it loads all .toml files (including SOPS secrets)
+    JJ_CONFIG = "${homeDirectory}/.config/jj";
   };
 in
 {
@@ -196,13 +198,26 @@ in
     # available as config.sops.secrets.`filename`
     secrets =
       let
+        secretFiles = builtins.readDir ../secrets;
+        # Determine which jj config to use based on machine type
+        # Work config includes [[--scope]] conditional for ~/personal/ override
+        jjConfigToUse = if isWorkMachine then "jjconfig_work" else "jjconfig_personal";
+        jjConfigToSkip = if isWorkMachine then "jjconfig_personal" else "jjconfig_work";
+        # Filter out the unused jj config
+        filteredFiles = lib.filterAttrs (name: _: name != jjConfigToSkip) secretFiles;
+        # Map secrets to appropriate paths
         toSecret = file: _: {
           sopsFile = ../secrets/${file};
-          path = "${homeDirectory}/.config/git/${file}";
+          path =
+            # Map selected jj config to user.toml (loaded by jj from config dir)
+            if file == jjConfigToUse then
+              "${homeDirectory}/.config/jj/user.toml"
+            else
+              "${homeDirectory}/.config/git/${file}";
           format = "binary";
         };
       in
-      pkgs.lib.mapAttrs toSecret (builtins.readDir ../secrets);
+      pkgs.lib.mapAttrs toSecret filteredFiles;
   };
 
   services.ollama = {
@@ -368,6 +383,16 @@ in
       };
       includes = [ config.sops.secrets.ssh_config.path ];
     };
+    jujutsu = {
+      enable = true;
+      settings = {
+        ui = {
+          default-command = "log";
+          paginate = "never";
+        };
+      };
+    };
+
     git = {
       package = pkgs.gitFull;
       enable = true;
