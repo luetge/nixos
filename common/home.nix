@@ -90,6 +90,7 @@ let
     pre-commit
     awscli
     gh
+    jujutsu
 
     nickel
     nls
