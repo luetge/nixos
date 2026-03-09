@@ -181,9 +181,35 @@ in
         ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
       ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
       ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
-      # Claude Code settings (plugins + MCP servers)
+      # Claude Code settings (plugins + MCP servers + hooks)
       ".claude-personal/settings.json".source = ../dotfiles/claude-settings-personal.json;
       ".claude-work/settings.json".source = ../dotfiles/claude-settings-work.json;
+      # Claude Code hooks - personal
+      ".claude-personal/hooks/memory-prompt-hook.sh" = {
+        source = ../dotfiles/claude-hooks/memory-prompt-hook.sh;
+        executable = true;
+      };
+      ".claude-personal/hooks/precompact-hook.sh" = {
+        source = ../dotfiles/claude-hooks/precompact-hook.sh;
+        executable = true;
+      };
+      ".claude-personal/hooks/postcompact-hook.sh" = {
+        source = ../dotfiles/claude-hooks/postcompact-hook.sh;
+        executable = true;
+      };
+      # Claude Code hooks - work
+      ".claude-work/hooks/memory-prompt-hook.sh" = {
+        source = ../dotfiles/claude-hooks/memory-prompt-hook.sh;
+        executable = true;
+      };
+      ".claude-work/hooks/precompact-hook.sh" = {
+        source = ../dotfiles/claude-hooks/precompact-hook.sh;
+        executable = true;
+      };
+      ".claude-work/hooks/postcompact-hook.sh" = {
+        source = ../dotfiles/claude-hooks/postcompact-hook.sh;
+        executable = true;
+      };
     };
     sessionVariables = sessionVariables;
   };
