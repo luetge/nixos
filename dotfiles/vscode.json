@@ -41,7 +41,7 @@
   "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
   "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
   "terminal.integrated.windowsEnableConpty": false,
-  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.colorTheme": "Dark Modern",
   "extensions.ignoreRecommendations": true,
   "rust-analyzer.cargo.features": "all",
   "typescript.updateImportsOnFileMove.enabled": "always",

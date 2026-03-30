@@ -39,7 +39,6 @@
       "vlc"
       "firefox"
       "zoom"
-      "figma"
       "remarkable"
       "steam"
       "zed"

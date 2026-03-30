@@ -31,23 +31,6 @@ let
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
   '';
-  copilot-chat = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-    mktplcRef = {
-      publisher = "GitHub";
-      name = "copilot-chat";
-      version = "v0.33.2025102704";
-      hash = "sha256-COPr+d4E5/20H+z2ms4Ay5Lbny5fODTzWaEL6uWM2kc=";
-    };
-  };
-  copilot = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-    mktplcRef = {
-      publisher = "GitHub";
-      name = "copilot";
-      version = "1.353.1723";
-      hash = "sha256-YtpSo8W94Jmt58qbLh97T1H7VZQUxnaZ4L7wp1fSMvQ=";
-    };
-  };
-
   tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       publisher = "tweag";
@@ -351,8 +334,7 @@ in
           github.vscode-pull-request-github
           # github.remotehub
           github.vscode-github-actions
-          copilot
-          copilot-chat
+          anthropic.claude-code
           esbenp.prettier-vscode
           ms-python.debugpy
         ];
