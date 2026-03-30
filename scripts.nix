@@ -42,6 +42,88 @@ let
     done
     echo "Done! All secrets updated with new keys."
   '';
+  nixos-isolated = pkgs.writeShellScriptBin "nixos-isolated" ''
+    set -e
+
+    VOLUME_NAME="nixos-isolated-nix-store"
+    CONTAINER_NAME="nixos-isolated"
+    IMAGE="nixos/nix"
+    SSH_KEY_1P="op://Private/nix encryption SSH Key/private key"
+
+    usage() {
+      echo "Usage: nixos-isolated [--reset] [--shell SHELL] [-- COMMAND...]"
+      echo ""
+      echo "Run an isolated Nix environment on macOS via Docker."
+      echo "Only a single SSH key (from 1Password) is shared. Everything else is isolated."
+      echo ""
+      echo "Options:"
+      echo "  --reset   Remove the persistent nix store volume and start fresh"
+      echo "  --shell   Shell to use inside the container (default: bash)"
+      echo "  --        Pass remaining arguments as the container command"
+      exit 0
+    }
+
+    SHELL_CMD="bash"
+    EXTRA_CMD=""
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --help|-h) usage ;;
+        --reset)
+          echo "Removing persistent nix store volume..."
+          ${pkgs.docker}/bin/docker volume rm "$VOLUME_NAME" 2>/dev/null || true
+          echo "Done."
+          shift
+          ;;
+        --shell)
+          SHELL_CMD="$2"
+          shift 2
+          ;;
+        --)
+          shift
+          EXTRA_CMD="$*"
+          break
+          ;;
+        *)
+          echo "Unknown option: $1"
+          usage
+          ;;
+      esac
+    done
+
+    # Verify docker is available
+    if ! ${pkgs.docker}/bin/docker info > /dev/null 2>&1; then
+      echo "Error: Docker is not running. Please start Docker Desktop or OrbStack."
+      exit 1
+    fi
+
+    # Fetch SSH key from 1Password into a temp file
+    SSH_TMPDIR=$(mktemp -d)
+    trap 'rm -rf "$SSH_TMPDIR"' EXIT
+    ${pkgs._1password-cli}/bin/op read "$SSH_KEY_1P" > "$SSH_TMPDIR/id_ed25519"
+    chmod 600 "$SSH_TMPDIR/id_ed25519"
+    ${pkgs.openssh}/bin/ssh-keygen -y -f "$SSH_TMPDIR/id_ed25519" > "$SSH_TMPDIR/id_ed25519.pub"
+
+    # Create volume for persistent nix store (avoids re-downloading everything)
+    ${pkgs.docker}/bin/docker volume create "$VOLUME_NAME" > /dev/null 2>&1 || true
+
+    echo "Starting isolated Nix environment..."
+    echo "  Shared: single SSH key from 1Password (read-only)"
+    echo "  Persistent: /nix (via Docker volume)"
+    echo ""
+
+    COMMAND="''${EXTRA_CMD:-$SHELL_CMD}"
+
+    exec ${pkgs.docker}/bin/docker run \
+      -it --rm \
+      --name "$CONTAINER_NAME" \
+      --hostname nixos-isolated \
+      -v "$SSH_TMPDIR/id_ed25519:/root/.ssh/id_ed25519:ro" \
+      -v "$SSH_TMPDIR/id_ed25519.pub:/root/.ssh/id_ed25519.pub:ro" \
+      -v "$VOLUME_NAME:/nix" \
+      -e "NIX_CONFIG=experimental-features = nix-command flakes" \
+      "$IMAGE" \
+      $COMMAND
+  '';
   setup-macos = pkgs.writeShellScriptBin "setup-macos" (
     if pkgs.stdenv.isDarwin then
       ''
@@ -105,5 +187,6 @@ in
     rotate-secrets
     setup-ssh
     create-age-key
+    nixos-isolated
     ;
 }
