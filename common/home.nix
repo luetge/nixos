@@ -10,6 +10,7 @@
 }:
 
 let
+  fontFamily = "M+1Code Nerd Font Mono";
   extra_pkgs = import ../overlays/pkgs.nix { inherit pkgs; };
   claude-wrapper = pkgs.writeShellScriptBin "claude" ''
     export DISABLE_INSTALLATION_CHECKS=1
@@ -46,19 +47,12 @@ let
     zstd
     tldr
     pkg-config
-    inetutils
     moreutils
-    ack
     coreutils
-    # libiconv
-    findutils
     openssh
-    xz
     ssh-copy-id
     cacert
     openssl
-    pcre2
-    gettext
     nixfmt
     nixd
     manix
@@ -100,7 +94,6 @@ let
     devenv
 
     # Better cli tools
-    bat
     eza
     fd
     sd
@@ -132,6 +125,8 @@ let
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
     LIBRARY_PATH = "${homeDirectory}/.nix-profile/lib";
+    CARGO_HOME = "${homeDirectory}/.cargo";
+    RUSTUP_HOME = "${homeDirectory}/.rustup";
     # Point jj to config directory so it loads all .toml files (including SOPS secrets)
     JJ_CONFIG = "${homeDirectory}/.config/jj";
   };
@@ -154,7 +149,6 @@ in
     file = {
       ".vimrc".source = ../dotfiles/.vimrc;
       ".config/tmux/tmux.remote.conf".source = ../dotfiles/.tmux.remote.conf;
-      ".bash_profile".source = ../dotfiles/.bash_profile;
       ".config/zed/settings.json".source = ../dotfiles/zed.json;
       ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
       ".ssh/id_ed25519_work_laptop.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_laptop.pub;
@@ -240,12 +234,19 @@ in
     starship = {
       enable = true;
       enableZshIntegration = true;
+      settings = {
+        add_newline = false;
+        command_timeout = 1000;
+        nix_shell.format = "via [$symbol$state]($style) ";
+        python.format = "[\${symbol}\${pyenv_prefix}(\${version})]($style) ";
+        rust.format = "[$symbol($version)]($style) ";
+      };
     };
 
     kitty = {
       enable = true;
       font = {
-        name = "M+1Code Nerd Font Mono";
+        name = fontFamily;
         size = 18;
       };
       themeFile = "MaterialDark";
@@ -297,6 +298,23 @@ in
       nix-direnv = {
         enable = true;
       };
+      config.global.warn_timeout = "1m";
+    };
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        navigate = true;
+        side-by-side = true;
+        line-numbers = true;
+      };
+    };
+    bat = {
+      enable = true;
+      config = {
+        theme = "TwoDark";
+        pager = "less -FR";
+      };
     };
     htop.enable = true;
     jq.enable = true;
@@ -345,6 +363,8 @@ in
           default = {
             # extensions = extensions;
             userSettings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode.json) // {
+              "editor.fontFamily" =
+                "'${fontFamily}', 'FiraCode Nerd Font Mono', Consolas, 'Courier New', monospace";
               "remote.SSH.defaultExtensions" = map (
                 ext: "${ext.vscodeExtPublisher}.${ext.vscodeExtName}"
               ) extensions;

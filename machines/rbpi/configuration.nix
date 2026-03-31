@@ -65,7 +65,7 @@ base
   # Configure SSH
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
+    settings.PermitRootLogin = "no";
   };
 
   # Add users

@@ -23,16 +23,13 @@
   "explorer.confirmDragAndDrop": false,
   "files.autoSave": "onFocusChange",
   "files.hotExit": "onExitAndWindowClose",
-  "git.autofetch": true,
+  "git.autofetch": false,
   "git.confirmSync": false,
   "git.ignoreMissingGitWarning": true,
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
   "nix.serverPath": "nixd",
   "nix.serverSettings": {
-    "nixpkgs": {
-      "expr": "import <nixpkgs> { }"
-    },
     "nixd": {
       "formatting": {
         "command": ["nixfmt"]
@@ -47,7 +44,6 @@
     "jupyter-notebook": "left"
   },
   "python.languageServer": "Pylance",
-  "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
   "extensions.ignoreRecommendations": true,
   "rust-analyzer.cargo.features": "all",
   "rust-analyzer.cargo.targetDir": true,
