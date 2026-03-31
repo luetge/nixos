@@ -1,19 +1,28 @@
 {
   "[python]": {
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
   },
   "editor.accessibilitySupport": "off",
   "editor.fontFamily": "'M+1Code Nerd Font Mono', 'FiraCode Nerd Font Mono', Consolas, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.fontSize": 16,
   "editor.formatOnSave": true,
+  "editor.inlineSuggest.enabled": true,
   "editor.minimap.enabled": false,
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.renderWhitespace": "none",
-  "editor.suggestSelection": "first",
+  "editor.stickyScroll.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.autoSave": "onFocusChange",
+  "files.hotExit": "onExitAndWindowClose",
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.ignoreMissingGitWarning": true,
@@ -38,13 +47,17 @@
     "jupyter-notebook": "left"
   },
   "python.languageServer": "Pylance",
-  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
   "python.terminal.launchArgs": ["-m", "IPython", "--no-autoindent"],
-  "terminal.integrated.windowsEnableConpty": false,
-  "workbench.colorTheme": "Dark Modern",
   "extensions.ignoreRecommendations": true,
   "rust-analyzer.cargo.features": "all",
+  "rust-analyzer.cargo.targetDir": true,
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.inlayHints.chainingHints.enable": true,
+  "rust-analyzer.inlayHints.typeHints.enable": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -60,8 +73,12 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "python.locator": "js",
-  "rust-analyzer.cargo.targetDir": true,
-  "files.hotExit": "onExitAndWindowClose",
-  "remote.autoForwardPortsSource": "hybrid"
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "Dark Modern",
+  "claudeCode.preferredLocation": "panel"
 }
