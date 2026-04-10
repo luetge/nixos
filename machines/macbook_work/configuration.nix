@@ -23,7 +23,6 @@ let
   system-update = pkgs.writeShellScriptBin "system-update" (
     if pkgs.stdenv.isDarwin then
       ''
-        sudo determinate-nixd upgrade
         sudo darwin-rebuild switch --flake github:luetge/nixos
       ''
     else
@@ -50,7 +49,7 @@ base
     hostPlatform = "aarch64-darwin";
   };
 
-  determinateNix.customSettings = {
+  nix.settings = {
     keep-outputs = true;
     keep-derivations = true;
     warn-dirty = false;
