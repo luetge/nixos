@@ -67,6 +67,7 @@ let
     pre-commit
     awscli
     gh
+    tree
     # jujutsu is configured via programs.jujutsu below
 
     nickel
