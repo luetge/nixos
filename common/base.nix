@@ -19,16 +19,16 @@
   };
 
   nix = {
-    enable = false;
-    # gc = {
-    #   automatic = true;
-    #   options = "--delete-older-than 15d";
-    #   interval = {
-    #     Weekday = 0;
-    #     Hour = 0;
-    #     Minute = 0;
-    #   };
-    # };
+    enable = true;
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
+    };
 
     # linux-builder = {
     #   enable = true;
@@ -49,47 +49,50 @@
     #   ];
     # };
 
-    # nixPath = [ "nixpkgs=${nixpkgs}" ];
+    nixPath = [ "nixpkgs=${nixpkgs}" ];
 
-    # package = pkgs.nixVersions.latest;
-    # optimise.automatic = true;
+    package = pkgs.nixVersions.latest;
+    optimise.automatic = true;
 
-    # settings = {
-    #   experimental-features = "nix-command flakes";
-    #   keep-outputs = true;
-    #   keep-derivations = true;
-    #   warn-dirty = false;
-    #   build-users-group = "nixbld";
-    #   builders-use-substitutes = true;
-    #   allow-import-from-derivation = true;
-    #   http-connections = 128;
-    #   max-substitution-jobs = 128;
-    #   trusted-users = [
-    #     "@admin"
-    #     "root"
-    #     user
-    #   ];
-    #   allowed-users = [
-    #     "@admin"
-    #     "root"
-    #     user
-    #   ];
-    #   substituters = [
-    #     "https://cache.nixos.org/"
-    #     "https://cache.garnix.io"
-    #   ];
-    #   trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
-    #   system-features = [
-    #     "kvm"
-    #     "nixos-test"
-    #     "benchmark"
-    #     "big-parallel"
-    #     "hvf"
-    #   ];
-    #   extra-platforms = lib.optionalString (
-    #     pkgs.system == "aarch64-darwin"
-    #   ) "x86_64-darwin x86_64-linux aarch64-darwin";
-    # };
+    settings = {
+      experimental-features = "nix-command flakes";
+      keep-outputs = true;
+      keep-derivations = true;
+      warn-dirty = false;
+      build-users-group = "nixbld";
+      builders-use-substitutes = true;
+      allow-import-from-derivation = true;
+      http-connections = 128;
+      max-substitution-jobs = 128;
+      trusted-users = [
+        "@admin"
+        "root"
+        user
+      ];
+      allowed-users = [
+        "@admin"
+        "root"
+        user
+      ];
+      substituters = [
+        "https://cache.nixos.org/"
+        "https://cache.garnix.io"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      ];
+      system-features = [
+        "kvm"
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "hvf"
+      ];
+      extra-platforms = lib.optionalString (
+        pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
+      ) "x86_64-darwin x86_64-linux aarch64-darwin";
+    };
   };
 
   nixpkgs = {

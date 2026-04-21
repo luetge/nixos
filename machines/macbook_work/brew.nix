@@ -9,15 +9,12 @@
     };
     taps = [
       "homebrew/bundle"
-      "homebrew/cask-fonts"
       "azure/azd"
     ];
     brews = [
       "libomp"
       "azd"
       "boost"
-      "cmake"
-      "git-lfs"
     ];
     masApps = {
       "Todoist: To-Do List & Tasks" = 585829637;

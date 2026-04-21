@@ -58,7 +58,6 @@ let
     manix
     rage
     safe-reattach-to-user-namespace
-    docker
     _1password-cli
     ruff
     ty
@@ -267,18 +266,7 @@ in
         extended = true;
         ignoreDups = true;
       };
-      plugins = [
-        {
-          # will source zsh-autosuggestions.plugin.zsh
-          name = "zsh-autosuggestions";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-autosuggestions";
-            rev = "v0.4.0";
-            sha256 = "0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc";
-          };
-        }
-      ];
+      autosuggestion.enable = true;
     };
 
     home-manager.enable = true;
