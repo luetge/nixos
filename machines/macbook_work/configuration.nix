@@ -45,7 +45,7 @@ base
 
   ids.gids.nixbld = 350;
 
-  nixpkgs = {
+  nixpkgs = base.nixpkgs // {
     hostPlatform = "aarch64-darwin";
   };
 

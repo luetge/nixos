@@ -133,7 +133,6 @@ let
 in
 {
   imports = [ sops-nix.homeManagerModules.sops ];
-  nixpkgs.config.allowUnfree = true;
   nix = lib.mkIf noSystemInstall {
     package = pkgs.nix;
     extraOptions = ''

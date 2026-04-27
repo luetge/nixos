@@ -97,7 +97,13 @@
 
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [ (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; }) ];
+    overlays = [
+      (self: super: {
+        direnv = super.direnv.overrideAttrs (old: {
+          doCheck = false;
+        });
+      })
+    ];
   };
   system.stateVersion = 4;
   programs = {
@@ -108,6 +114,7 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
 
+  home-manager.useGlobalPkgs = true;
   home-manager.users.dlutgehet = import ./home.nix;
   home-manager.extraSpecialArgs = {
     inherit user isWorkMachine sops-nix;
