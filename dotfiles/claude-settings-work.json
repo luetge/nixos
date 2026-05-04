@@ -8,7 +8,7 @@
     "commit-commands@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "last30days-skill@mvanhorn": true
+    "last30days@last30days-skill": true
   },
   "alwaysThinkingEnabled": true,
   "hooks": {
