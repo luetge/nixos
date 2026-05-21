@@ -62,6 +62,7 @@ let
     ruff
     ty
     azure-cli
+    azure-storage-azcopy
     signal-export
     pre-commit
     awscli
@@ -83,6 +84,7 @@ let
     openmpi.dev
     poethepoet
     claude-wrapper
+    brev-cli
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
@@ -91,6 +93,7 @@ let
     ffmpeg
     ffmpeg.dev
     nil
+    docker
 
     devenv
 
@@ -131,6 +134,7 @@ let
     RUSTUP_HOME = "${homeDirectory}/.rustup";
     # Point jj to config directory so it loads all .toml files (including SOPS secrets)
     JJ_CONFIG = "${homeDirectory}/.config/jj";
+    V_LLM_API_KEY = "dummy";
   };
 in
 {
