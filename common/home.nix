@@ -67,6 +67,7 @@ let
     awscli
     gh
     tree
+    swig
     # jujutsu is configured via programs.jujutsu below
 
     nickel
@@ -104,6 +105,7 @@ let
     ripgrep
     hdf5.dev
     cmake
+    boost.dev
 
     compress-pdf
 
@@ -223,7 +225,7 @@ in
   };
 
   services.ollama = {
-    enable = true;
+    enable = false;
     # loadModels = [
     #   "qwen2.5-coder-7b"
     # ];

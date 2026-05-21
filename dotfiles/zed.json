@@ -23,7 +23,8 @@
             "capabilities": {
               "tools": true,
               "images": false,
-              "parallel_tool_calls": false
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false
             }
           }
         ]
