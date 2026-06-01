@@ -110,6 +110,8 @@ base
     # Following line should allow us to avoid a logout/login cycle
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     killall Dock
+    # Set DOTNET_ROOT for GUI apps (e.g. Azure Storage Explorer)
+    launchctl setenv DOTNET_ROOT /Users/${user}/.nix-profile/share/dotnet
   '';
 
   system.defaults.CustomUserPreferences = {

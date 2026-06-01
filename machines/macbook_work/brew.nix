@@ -39,6 +39,7 @@
       "remarkable"
       "steam"
       "zed"
+      "microsoft-azure-storage-explorer"
     ];
   };
 }

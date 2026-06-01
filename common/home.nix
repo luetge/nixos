@@ -94,6 +94,7 @@ let
     ffmpeg.dev
     nil
     docker
+    dotnetCorePackages.sdk_10_0
 
     devenv
 
@@ -135,6 +136,7 @@ let
     # Point jj to config directory so it loads all .toml files (including SOPS secrets)
     JJ_CONFIG = "${homeDirectory}/.config/jj";
     V_LLM_API_KEY = "dummy";
+    DOTNET_ROOT = "${homeDirectory}/.nix-profile/share/dotnet";
   };
 in
 {
