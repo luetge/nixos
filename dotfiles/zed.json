@@ -7,9 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "features": {
-    "edit_prediction_provider": "none"
-  },
+  "cli_default_open_behavior": "new_window",
   "language_models": {
     "openai_compatible": {
       "vLLM": {
@@ -24,19 +22,19 @@
               "tools": true,
               "images": false,
               "parallel_tool_calls": false,
-              "prompt_cache_key": false
-            }
-          }
-        ]
-      }
-    }
+              "prompt_cache_key": false,
+            },
+          },
+        ],
+      },
+    },
   },
   "agent": {
     "enabled": true,
     "default_model": {
       "provider": "openai_compatible",
-      "model": "local-llm"
-    }
+      "model": "local-llm",
+    },
   },
   "edit_predictions": {
     "provider": "open_ai_compatible_api",
@@ -44,8 +42,8 @@
       "api_url": "http://localhost:8000/v1/completions",
       "model": "local-llm",
       "prompt_format": "qwen",
-      "max_output_tokens": 512
-    }
+      "max_output_tokens": 512,
+    },
   },
   "ui_font_family": "M+1Code Nerd Font Mono",
   "ui_font_size": 16,
@@ -53,58 +51,50 @@
   "vim_mode": true,
   "cursor_blink": false,
   "inlay_hints": {
-    "enabled": true
+    "enabled": true,
   },
   "autosave": "on_focus_change",
   "telemetry": { "diagnostics": false, "metrics": false },
   "languages": {
     "Rust": { "colorize_brackets": true },
     "Python": {
+      "code_actions_on_format": {
+        "source.organizeImports.ruff": true,
+        "source.fixAll.ruff": true
+      },
       "language_servers": ["ty", "ruff"],
       "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            // Fix all auto-fixable lint violations
-            "source.fixAll.ruff": true,
-            // Organize imports
-            "source.organizeImports.ruff": true
-          },
-          "language_server": {
-            "name": "ruff"
-          }
-        }
-      ]
+      "formatter": [],
     },
     "Nix": {
       "formatter": {
         "external": {
           "command": "nixfmt",
-          "arguments": ["--quiet", "--"]
-        }
-      }
-    }
+          "arguments": ["--quiet", "--"],
+        },
+      },
+    },
   },
   "lsp": {
     "rust-analyzer": {
       "binary": {
         "path": "/Users/dlutgehet/.nix-profile/bin/rust-analyzer",
-        "arguments": []
+        "arguments": [],
       },
       "initialization_options": {
         "rust": {
-          "analyzerTargetDir": ".rust-analyzer-dir"
+          "analyzerTargetDir": ".rust-analyzer-dir",
         },
         "check": {
-          "command": "clippy"
-        }
-      }
+          "command": "clippy",
+        },
+      },
     },
     "ty": {
       "binary": {
         "path": "ty",
-        "arguments": ["server"]
-      }
-    }
-  }
+        "arguments": ["server"],
+      },
+    },
+  },
 }
