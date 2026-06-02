@@ -171,10 +171,8 @@ in
       ".config/tmux/tmux.remote.conf".source = dotfile ".tmux.remote.conf";
       ".config/zed/settings.json".source = dotfile "zed.json";
       ".ssh/id_ed25519_work.pub".source = dotfile "ssh-public-keys/id_ed25519_work.pub";
-      ".ssh/id_ed25519_work_laptop.pub".source =
-        dotfile "ssh-public-keys/id_ed25519_work_laptop.pub";
-      ".ssh/id_ed25519_work_github.pub".source =
-        dotfile "ssh-public-keys/id_ed25519_work_github.pub";
+      ".ssh/id_ed25519_work_laptop.pub".source = dotfile "ssh-public-keys/id_ed25519_work_laptop.pub";
+      ".ssh/id_ed25519_work_github.pub".source = dotfile "ssh-public-keys/id_ed25519_work_github.pub";
       ".ssh/id_ed25519_personal.pub".source = dotfile "ssh-public-keys/id_ed25519_personal.pub";
       ".ssh/id_ed25519_personal_github.pub".source =
         dotfile "ssh-public-keys/id_ed25519_personal_github.pub";
@@ -186,13 +184,10 @@ in
       # Claude Code hooks - personal
       ".claude-personal/hooks/memory-prompt-hook.sh".source =
         dotfile "claude-hooks/memory-prompt-hook.sh";
-      ".claude-personal/hooks/precompact-hook.sh".source =
-        dotfile "claude-hooks/precompact-hook.sh";
-      ".claude-personal/hooks/postcompact-hook.sh".source =
-        dotfile "claude-hooks/postcompact-hook.sh";
+      ".claude-personal/hooks/precompact-hook.sh".source = dotfile "claude-hooks/precompact-hook.sh";
+      ".claude-personal/hooks/postcompact-hook.sh".source = dotfile "claude-hooks/postcompact-hook.sh";
       # Claude Code hooks - work
-      ".claude-work/hooks/memory-prompt-hook.sh".source =
-        dotfile "claude-hooks/memory-prompt-hook.sh";
+      ".claude-work/hooks/memory-prompt-hook.sh".source = dotfile "claude-hooks/memory-prompt-hook.sh";
       ".claude-work/hooks/precompact-hook.sh".source = dotfile "claude-hooks/precompact-hook.sh";
       ".claude-work/hooks/postcompact-hook.sh".source = dotfile "claude-hooks/postcompact-hook.sh";
     };
@@ -325,7 +320,7 @@ in
       enable = true;
       sensibleOnTop = false;
       # Live-source from the checkout (-q ignores a missing file).
-      extraConfig = ''source-file -q ${dotfilesPath}/.tmux.conf'';
+      extraConfig = "source-file -q ${dotfilesPath}/.tmux.conf";
     };
 
     vscode =
@@ -386,7 +381,7 @@ in
       #   enable = true;
       # };
       # Live-source the vimrc from the checkout (silent! ignores a missing file).
-      extraConfig = ''silent! source ${dotfilesPath}/.vimrc'';
+      extraConfig = "silent! source ${dotfilesPath}/.vimrc";
       plugins = with pkgs.vimPlugins; [
         coc-fzf
         fzf-vim
