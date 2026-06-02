@@ -120,6 +120,15 @@ let
   ];
   homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
   personalFolder = "~/personal/";
+  # Live checkout of this repo. Dotfiles are symlinked out of the nix store
+  # straight into this directory so edits take effect immediately, without a
+  # home-manager rebuild.
+  # See https://matklad.github.io/2026/05/21/symlinking-nixos-dotfiles.html
+  repoPath = "${homeDirectory}/personal/nixos";
+  dotfilesPath = "${repoPath}/dotfiles";
+  # Symlink a path under dotfiles/ directly into the live checkout instead of
+  # copying it into the read-only /nix/store.
+  dotfile = relpath: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${relpath}";
   sessionVariables = {
     HISTSIZE = "5000";
     SAVEHIST = "5000";
@@ -153,47 +162,39 @@ in
     homeDirectory = homeDirectory;
     packages = user-packages;
     stateVersion = "21.05";
+    # All dotfiles are symlinked out of the store into the live checkout (see
+    # the `dotfile` helper above) so they can be edited in place. Symlinks
+    # inherit the target's permissions from the repo, so the claude hooks just
+    # need to stay executable in git (they are tracked as mode 0755).
     file = {
-      ".vimrc".source = ../dotfiles/.vimrc;
-      ".config/tmux/tmux.remote.conf".source = ../dotfiles/.tmux.remote.conf;
-      ".config/zed/settings.json".source = ../dotfiles/zed.json;
-      ".ssh/id_ed25519_work.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work.pub;
-      ".ssh/id_ed25519_work_laptop.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_laptop.pub;
-      ".ssh/id_ed25519_work_github.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_work_github.pub;
-      ".ssh/id_ed25519_personal.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_personal.pub;
+      ".vimrc".source = dotfile ".vimrc";
+      ".config/tmux/tmux.remote.conf".source = dotfile ".tmux.remote.conf";
+      ".config/zed/settings.json".source = dotfile "zed.json";
+      ".ssh/id_ed25519_work.pub".source = dotfile "ssh-public-keys/id_ed25519_work.pub";
+      ".ssh/id_ed25519_work_laptop.pub".source =
+        dotfile "ssh-public-keys/id_ed25519_work_laptop.pub";
+      ".ssh/id_ed25519_work_github.pub".source =
+        dotfile "ssh-public-keys/id_ed25519_work_github.pub";
+      ".ssh/id_ed25519_personal.pub".source = dotfile "ssh-public-keys/id_ed25519_personal.pub";
       ".ssh/id_ed25519_personal_github.pub".source =
-        ../dotfiles/ssh-public-keys/id_ed25519_personal_github.pub;
-      ".ssh/id_ed25519_do.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_do.pub;
-      ".ssh/id_ed25519_mh.pub".source = ../dotfiles/ssh-public-keys/id_ed25519_mh.pub;
+        dotfile "ssh-public-keys/id_ed25519_personal_github.pub";
+      ".ssh/id_ed25519_do.pub".source = dotfile "ssh-public-keys/id_ed25519_do.pub";
+      ".ssh/id_ed25519_mh.pub".source = dotfile "ssh-public-keys/id_ed25519_mh.pub";
       # Claude Code settings (plugins + MCP servers + hooks)
-      ".claude-personal/settings.json".source = ../dotfiles/claude-settings-personal.json;
-      ".claude-work/settings.json".source = ../dotfiles/claude-settings-work.json;
+      ".claude-personal/settings.json".source = dotfile "claude-settings-personal.json";
+      ".claude-work/settings.json".source = dotfile "claude-settings-work.json";
       # Claude Code hooks - personal
-      ".claude-personal/hooks/memory-prompt-hook.sh" = {
-        source = ../dotfiles/claude-hooks/memory-prompt-hook.sh;
-        executable = true;
-      };
-      ".claude-personal/hooks/precompact-hook.sh" = {
-        source = ../dotfiles/claude-hooks/precompact-hook.sh;
-        executable = true;
-      };
-      ".claude-personal/hooks/postcompact-hook.sh" = {
-        source = ../dotfiles/claude-hooks/postcompact-hook.sh;
-        executable = true;
-      };
+      ".claude-personal/hooks/memory-prompt-hook.sh".source =
+        dotfile "claude-hooks/memory-prompt-hook.sh";
+      ".claude-personal/hooks/precompact-hook.sh".source =
+        dotfile "claude-hooks/precompact-hook.sh";
+      ".claude-personal/hooks/postcompact-hook.sh".source =
+        dotfile "claude-hooks/postcompact-hook.sh";
       # Claude Code hooks - work
-      ".claude-work/hooks/memory-prompt-hook.sh" = {
-        source = ../dotfiles/claude-hooks/memory-prompt-hook.sh;
-        executable = true;
-      };
-      ".claude-work/hooks/precompact-hook.sh" = {
-        source = ../dotfiles/claude-hooks/precompact-hook.sh;
-        executable = true;
-      };
-      ".claude-work/hooks/postcompact-hook.sh" = {
-        source = ../dotfiles/claude-hooks/postcompact-hook.sh;
-        executable = true;
-      };
+      ".claude-work/hooks/memory-prompt-hook.sh".source =
+        dotfile "claude-hooks/memory-prompt-hook.sh";
+      ".claude-work/hooks/precompact-hook.sh".source = dotfile "claude-hooks/precompact-hook.sh";
+      ".claude-work/hooks/postcompact-hook.sh".source = dotfile "claude-hooks/postcompact-hook.sh";
     };
     sessionVariables = sessionVariables;
   };
@@ -265,8 +266,12 @@ in
     };
     zsh = {
       enable = true;
-      initContent =
-        (builtins.readFile ../dotfiles/.zshrc) + "\nexport LIBRARY_PATH=${homeDirectory}/.nix-profile/lib";
+      # Source the dotfile live from the checkout instead of baking it into the
+      # generated .zshrc, so edits apply on the next shell without a rebuild.
+      initContent = ''
+        [ -f "${dotfilesPath}/.zshrc" ] && source "${dotfilesPath}/.zshrc"
+        export LIBRARY_PATH=${homeDirectory}/.nix-profile/lib
+      '';
       sessionVariables = sessionVariables;
       syntaxHighlighting.enable = true;
       history = {
@@ -319,7 +324,8 @@ in
     tmux = {
       enable = true;
       sensibleOnTop = false;
-      extraConfig = builtins.readFile ../dotfiles/.tmux.conf;
+      # Live-source from the checkout (-q ignores a missing file).
+      extraConfig = ''source-file -q ${dotfilesPath}/.tmux.conf'';
     };
 
     vscode =
@@ -379,7 +385,8 @@ in
       # coc = {
       #   enable = true;
       # };
-      extraConfig = builtins.readFile ../dotfiles/.vimrc;
+      # Live-source the vimrc from the checkout (silent! ignores a missing file).
+      extraConfig = ''silent! source ${dotfilesPath}/.vimrc'';
       plugins = with pkgs.vimPlugins; [
         coc-fzf
         fzf-vim
