@@ -4,6 +4,7 @@
   inputs = {
     # Package sets
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # Environment/system management
     darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
@@ -29,6 +30,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       darwin,
       home-manager,
       flake-utils,
@@ -46,6 +48,13 @@
           darwinSystem {
             inherit system;
             modules = [
+              {
+                nixpkgs.overlays = [
+                  (_final: _prev: {
+                    mas = (import nixpkgs-unstable { inherit system; }).mas;
+                  })
+                ];
+              }
               sops-nix.darwinModules.sops
               ./machines/macbook_work/configuration.nix
               home-manager.darwinModules.home-manager
