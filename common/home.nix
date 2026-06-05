@@ -69,6 +69,7 @@ let
     gh
     tree
     swig
+    graphviz
     # jujutsu is configured via programs.jujutsu below
 
     nickel
@@ -93,7 +94,7 @@ let
     ffmpeg
     ffmpeg.dev
     nil
-    docker
+    docker_29
     dotnetCorePackages.sdk_10_0
 
     devenv
