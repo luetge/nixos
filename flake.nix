@@ -18,6 +18,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Always-fresh Claude Code (nixpkgs lags behind upstream releases)
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Other sources
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks = {
@@ -36,6 +42,7 @@
       flake-utils,
       sops-nix,
       pre-commit-hooks,
+      claude-code-nix,
     }@inputs:
     let
       inherit (darwin.lib) darwinSystem;
@@ -50,6 +57,7 @@
             modules = [
               {
                 nixpkgs.overlays = [
+                  claude-code-nix.overlays.default
                   (_final: _prev: {
                     mas = (import nixpkgs-unstable { inherit system; }).mas;
                   })
@@ -88,6 +96,7 @@
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [ claude-code-nix.overlays.default ];
         };
         scripts = (import ./scripts.nix) {
           inherit
