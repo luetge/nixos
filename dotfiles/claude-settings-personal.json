@@ -44,5 +44,6 @@
     "stripe@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "model": "claude-opus-4-8"
 }
