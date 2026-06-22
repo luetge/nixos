@@ -95,7 +95,9 @@ let
     ffmpeg.dev
     nil
     docker_29
-    dotnetCorePackages.sdk_10_0
+    # .NET SDK comes from the `dotnet-sdk` Homebrew cask: nixpkgs builds dotnet
+    # from source (VMR) on aarch64-darwin and that build is currently broken
+    # upstream (NixOS/nixpkgs#450126), with no binary cache to fall back on.
 
     devenv
 
@@ -146,7 +148,9 @@ let
     # Point jj to config directory so it loads all .toml files (including SOPS secrets)
     JJ_CONFIG = "${homeDirectory}/.config/jj";
     V_LLM_API_KEY = "dummy";
-    DOTNET_ROOT = "${homeDirectory}/.nix-profile/share/dotnet";
+    # Installed via the `dotnet-sdk` Homebrew cask (see brew.nix); the cask's
+    # pkg installer lands here rather than in the nix profile.
+    DOTNET_ROOT = "/usr/local/share/dotnet";
   };
 in
 {
