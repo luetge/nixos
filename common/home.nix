@@ -248,6 +248,7 @@ in
         nix_shell.format = "via [$symbol$state]($style) ";
         python.format = "[\${symbol}\${pyenv_prefix}(\${version})]($style) ";
         rust.format = "[$symbol($version)]($style) ";
+        gcloud.disabled = true;
       };
     };
 
