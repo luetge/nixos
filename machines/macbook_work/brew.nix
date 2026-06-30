@@ -16,6 +16,7 @@
       "libomp"
       "azd"
       "boost"
+      "azure-cli"
     ];
     masApps = {
       "Todoist: To-Do List & Tasks" = 585829637;

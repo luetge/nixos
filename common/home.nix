@@ -61,7 +61,6 @@ let
     _1password-cli
     ruff
     ty
-    azure-cli
     azure-storage-azcopy
     signal-export
     pre-commit
