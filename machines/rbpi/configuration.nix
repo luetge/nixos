@@ -1,29 +1,13 @@
 {
   rev ? null,
   pkgs,
-  nixpkgs,
   home-manager,
   user,
-  lib,
-  sops-nix,
-  config,
   ...
 }:
-let
-  base = (import ../../common/base.nix) {
-    inherit
-      lib
-      pkgs
-      nixpkgs
-      user
-      sops-nix
-      config
-      ;
-    isWorkMachine = false;
-  };
-in
-base
-// {
+{
+  # NOTE: common/base.nix is darwin-only (linux-builder, system.keyboard, …);
+  # this NixOS config stands alone until a cross-platform base is split out.
   system.configurationRevision = pkgs.lib.mkIf (rev != null) rev;
 
   imports = [ home-manager.nixosModule ];

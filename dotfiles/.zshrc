@@ -11,7 +11,7 @@ unset LC_ALL
 export EDITOR=vim
 export LESSCHARSET=utf-8
 export PAGER='less -R'
-export TERM=xterm-256color
+# Don't force TERM globally: kitty sets xterm-kitty, tmux sets its own.
 [ -n "$TMUX" ] && export TERM=screen-256color
 
 setopt interactivecomments
@@ -46,13 +46,13 @@ export PATH=/run/current-system/sw/bin/:/Users/dlutgehet/.nix-profile/bin/:$PATH
 # Performance boost
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
-if hash exa 2>/dev/null; then
-    alias ls='exa'
-    alias l='exa -l --all --group-directories-first --git'
-    alias ll='exa -l --all --all --group-directories-first --git'
-    alias lt='exa -T --git-ignore --level=2 --group-directories-first'
-    alias llt='exa -lT --git-ignore --level=2 --group-directories-first'
-    alias lT='exa -T --git-ignore --level=4 --group-directories-first'
+if hash eza 2>/dev/null; then
+    alias ls='eza'
+    alias l='eza -l --all --group-directories-first --git'
+    alias ll='eza -l --all --all --group-directories-first --git'
+    alias lt='eza -T --git-ignore --level=2 --group-directories-first'
+    alias llt='eza -lT --git-ignore --level=2 --group-directories-first'
+    alias lT='eza -T --git-ignore --level=4 --group-directories-first'
 else
     alias l='ls -lah'
     alias ll='ls -alF'
@@ -64,8 +64,8 @@ alias make_pwd_private='chmod -R go-rwx .'
 alias g='git'
 alias t='tmux -2 attach -d || tmux -2 new';
 
-# Capslock mapping
-hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc": 0x700000039, "HIDKeyboardModifierMappingDst": 0x7000000E0}]}' > /dev/null || true
+# Capslock mapping is handled by nix-darwin (system.keyboard.remapCapsLockToControl);
+# running hidutil here slowed down every new shell.
 
-# Launch/connect to tmux if needed
-if [ "$TMUX" = "" ]; then t; fi
+# Launch/connect to tmux if needed (but not inside editor-integrated terminals)
+if [[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" && "$TERM_PROGRAM" != "zed" ]]; then t; fi

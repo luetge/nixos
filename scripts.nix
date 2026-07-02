@@ -22,10 +22,6 @@ let
     fi
     ${create-age-key}/bin/create-age-key
   '';
-  fmt-srcs = pkgs.writeShellScriptBin "fmt-srcs" ''
-    set -e
-    ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'` --check || ${pkgs.nixfmt}/bin/nixfmt `find . -type f -name '*.nix'`
-  '';
   edit-secrets = pkgs.writeShellScriptBin "edit-secrets" ''
     set -e
     ${create-age-key}/bin/create-age-key
@@ -100,7 +96,6 @@ in
 {
   inherit
     install
-    fmt-srcs
     edit-secrets
     rotate-secrets
     setup-ssh

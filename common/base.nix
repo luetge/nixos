@@ -1,123 +1,133 @@
 {
   lib,
+  config,
   pkgs,
   nixpkgs,
   user,
-  isWorkMachine,
   sops-nix,
   ...
 }:
 {
-
-  # System packages
-  environment = {
-    systemPackages = [ ];
-    pathsToLink = [
-      "/share/nix-direnv"
-      "/share/zsh"
-    ];
+  options.local.isWorkMachine = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+    description = "Whether this machine is managed by / used for work.";
   };
 
-  nix = {
-    enable = true;
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d";
-      interval = {
-        Weekday = 0;
-        Hour = 2;
-        Minute = 0;
-      };
+  config = {
+    # System packages
+    environment = {
+      systemPackages = [ ];
+      pathsToLink = [
+        "/share/nix-direnv"
+        "/share/zsh"
+      ];
     };
 
-    linux-builder = {
+    nix = {
       enable = true;
-      ephemeral = true;
-      maxJobs = 4;
-      config = {
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 40 * 1024;
-            memorySize = 8 * 1024;
-          };
-          cores = 6;
+      gc = {
+        automatic = true;
+        options = "--delete-older-than 7d";
+        interval = {
+          Weekday = 0;
+          Hour = 2;
+          Minute = 0;
         };
       };
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
+
+      linux-builder = {
+        enable = true;
+        ephemeral = true;
+        maxJobs = 4;
+        config = {
+          virtualisation = {
+            darwin-builder = {
+              diskSize = 40 * 1024;
+              memorySize = 8 * 1024;
+            };
+            cores = 6;
+          };
+        };
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
+      };
+
+      nixPath = [ "nixpkgs=${nixpkgs}" ];
+
+      # `stable` instead of `latest`: latest occasionally ships regressions
+      # into the system-wide nix daemon.
+      package = pkgs.nixVersions.stable;
+      optimise.automatic = true;
+
+      settings = {
+        experimental-features = "nix-command flakes";
+        keep-outputs = true;
+        keep-derivations = true;
+        warn-dirty = false;
+        build-users-group = "nixbld";
+        builders-use-substitutes = true;
+        allow-import-from-derivation = true;
+        http-connections = 128;
+        max-substitution-jobs = 128;
+        trusted-users = [
+          "@admin"
+          "root"
+          user
+        ];
+        allowed-users = [
+          "@admin"
+          "root"
+          user
+        ];
+        substituters = [
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = [
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        ];
+        system-features = [
+          "kvm"
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "hvf"
+        ];
+        extra-platforms = lib.optionalString (
+          pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
+        ) "x86_64-darwin x86_64-linux aarch64-darwin";
+      };
+    };
+
+    nixpkgs = {
+      config.allowUnfree = true;
+      overlays = [
+        (self: super: {
+          direnv = super.direnv.overrideAttrs (old: {
+            doCheck = false;
+          });
+        })
       ];
     };
 
-    nixPath = [ "nixpkgs=${nixpkgs}" ];
-
-    package = pkgs.nixVersions.latest;
-    optimise.automatic = true;
-
-    settings = {
-      experimental-features = "nix-command flakes";
-      keep-outputs = true;
-      keep-derivations = true;
-      warn-dirty = false;
-      build-users-group = "nixbld";
-      builders-use-substitutes = true;
-      allow-import-from-derivation = true;
-      http-connections = 128;
-      max-substitution-jobs = 128;
-      trusted-users = [
-        "@admin"
-        "root"
-        user
-      ];
-      allowed-users = [
-        "@admin"
-        "root"
-        user
-      ];
-      substituters = [
-        "https://cache.nixos.org/"
-        "https://cache.garnix.io"
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      ];
-      system-features = [
-        "kvm"
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "hvf"
-      ];
-      extra-platforms = lib.optionalString (
-        pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
-      ) "x86_64-darwin x86_64-linux aarch64-darwin";
+    programs = {
+      nix-index.enable = true;
+      zsh.enable = true;
     };
-  };
 
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = [
-      (self: super: {
-        direnv = super.direnv.overrideAttrs (old: {
-          doCheck = false;
-        });
-      })
-    ];
-  };
-  system.stateVersion = 4;
-  programs = {
-    nix-index.enable = true;
-    zsh.enable = true;
-  };
+    system.keyboard.enableKeyMapping = true;
+    system.keyboard.remapCapsLockToControl = true;
 
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToControl = true;
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.dlutgehet = import ./home.nix;
-  home-manager.extraSpecialArgs = {
-    inherit user isWorkMachine sops-nix;
-    noSystemInstall = false;
+    home-manager = {
+      useGlobalPkgs = true;
+      users.${user} = import ./home.nix;
+      extraSpecialArgs = {
+        inherit user sops-nix;
+        inherit (config.local) isWorkMachine;
+        noSystemInstall = false;
+      };
+    };
   };
 }

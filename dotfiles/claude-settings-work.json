@@ -11,6 +11,39 @@
     "last30days@last30days-skill": true
   },
   "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(jj log:*)",
+      "Bash(jj diff:*)",
+      "Bash(jj st:*)",
+      "Bash(rg:*)",
+      "Bash(fd:*)",
+      "Bash(ls:*)",
+      "Bash(eza:*)",
+      "Bash(tree:*)",
+      "Bash(jq:*)",
+      "Bash(wc:*)",
+      "Bash(nix flake check:*)",
+      "Bash(nix flake metadata:*)",
+      "Bash(nix flake show:*)",
+      "Bash(nix eval:*)",
+      "Bash(nix build:*)",
+      "Bash(nix fmt:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo clippy:*)",
+      "Bash(cargo nextest run:*)",
+      "Bash(cargo test:*)",
+      "Bash(ruff check:*)",
+      "Bash(ruff format:*)",
+      "Bash(ty check:*)",
+      "Bash(uv run pytest:*)"
+    ]
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -18,7 +51,7 @@
           {
             "type": "command",
             "command": "~/.claude-work/hooks/memory-prompt-hook.sh",
-            "timeout": 5000
+            "timeout": 10
           }
         ]
       }
@@ -29,7 +62,7 @@
           {
             "type": "command",
             "command": "~/.claude-work/hooks/precompact-hook.sh",
-            "timeout": 5000
+            "timeout": 10
           }
         ]
       }
@@ -41,7 +74,7 @@
           {
             "type": "command",
             "command": "~/.claude-work/hooks/postcompact-hook.sh",
-            "timeout": 5000
+            "timeout": 10
           }
         ]
       }

@@ -1,36 +1,33 @@
 {
-  lib,
   pkgs,
-  nixpkgs,
   user,
-  sops-nix,
-  config,
   ...
 }:
 let
-  base = (import ../../common/base.nix) {
-    inherit
-      lib
-      pkgs
-      nixpkgs
-      user
-      sops-nix
-      config
-      ;
-    isWorkMachine = true;
-  };
   hostName = "${user}-work-macbook";
   system-update = pkgs.writeShellScriptBin "system-update" (
     if pkgs.stdenv.isDarwin then
       ''
-        sudo darwin-rebuild switch --flake github:luetge/nixos
+        # Prefer the local checkout so uncommitted changes are picked up;
+        # fall back to GitHub on machines without one.
+        if [ -f "$HOME/personal/nixos/flake.nix" ]; then
+          sudo darwin-rebuild switch --flake "$HOME/personal/nixos#dlutgehet-work-macbook"
+        else
+          sudo darwin-rebuild switch --flake github:luetge/nixos#dlutgehet-work-macbook
+        fi
       ''
     else
       ''exit "not implemented yet"''
   );
 in
-base
-// {
+{
+  imports = [
+    ../../common/base.nix
+    ./brew.nix
+  ];
+
+  local.isWorkMachine = true;
+
   networking = {
     knownNetworkServices = [
       "Wi-Fi"
@@ -45,17 +42,13 @@ base
 
   ids.gids.nixbld = 350;
 
-  nixpkgs = base.nixpkgs // {
-    hostPlatform = "aarch64-darwin";
-  };
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   system.stateVersion = 5;
 
   system.primaryUser = user;
 
-  environment = base.environment // {
-    systemPackages = base.environment.systemPackages ++ [ system-update ];
-  };
+  environment.systemPackages = [ system-update ];
 
   security.pam.services.sudo_local = {
     touchIdAuth = true;
@@ -233,4 +226,3 @@ base
     };
   };
 }
-// (import ./brew.nix { })

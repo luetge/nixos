@@ -67,7 +67,6 @@ let
     awscli
     gh
     tree
-    swig
     graphviz
     # jujutsu is configured via programs.jujutsu below
 
@@ -81,7 +80,6 @@ let
     nodejs
     samply
     yq
-    openmpi.dev
     poethepoet
     claude-wrapper
     brev-cli
@@ -90,8 +88,8 @@ let
     nerd-fonts.fira-code
     marimo
     nix-output-monitor
+    nh
     ffmpeg
-    ffmpeg.dev
     nil
     docker_29
     # .NET SDK comes from the `dotnet-sdk` Homebrew cask: nixpkgs builds dotnet
@@ -109,9 +107,9 @@ let
     grex
     watchexec
     ripgrep
-    hdf5.dev
-    cmake
-    boost.dev
+    # Project build deps (hdf5, boost, openmpi, cmake, swig, ffmpeg.dev, …)
+    # deliberately live in per-project dev shells (see templates/), not here:
+    # a global LIBRARY_PATH/toolchain leaks into and breaks project builds.
 
     compress-pdf
 
@@ -137,11 +135,11 @@ let
     EDITOR = "vim";
     LESSCHARSET = "utf-8";
     PAGER = "less -R";
-    TERM = "xterm-256color";
+    # TERM is intentionally not set: the terminal (kitty sets xterm-kitty,
+    # tmux sets screen/tmux-256color) knows better than a global override.
     CLICOLOR = "1";
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
-    LIBRARY_PATH = "${homeDirectory}/.nix-profile/lib";
     CARGO_HOME = "${homeDirectory}/.cargo";
     RUSTUP_HOME = "${homeDirectory}/.rustup";
     # Point jj to config directory so it loads all .toml files (including SOPS secrets)
@@ -270,7 +268,6 @@ in
       # generated .zshrc, so edits apply on the next shell without a rebuild.
       initContent = ''
         [ -f "${dotfilesPath}/.zshrc" ] && source "${dotfilesPath}/.zshrc"
-        export LIBRARY_PATH=${homeDirectory}/.nix-profile/lib
       '';
       sessionVariables = sessionVariables;
       syntaxHighlighting.enable = true;
@@ -289,6 +286,17 @@ in
       changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
       changeDirWidgetCommand = "fd -t d . $HOME/code $HOME/personal/code $HOME/Documents";
       tmux.enableShellIntegration = true;
+    };
+    # Smarter cd: `z <fuzzy dir>` jumps to frecent directories
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    # Searchable shell history on ctrl-r; up-arrow keeps the stock behavior
+    atuin = {
+      enable = true;
+      enableZshIntegration = true;
+      flags = [ "--disable-up-arrow" ];
     };
     dircolors = {
       enable = true;
@@ -330,6 +338,8 @@ in
 
     vscode =
       let
+        # Intentionally NOT installed via nix (mutableExtensionsDir below):
+        # this list only seeds remote.SSH.defaultExtensions.
         extensions = with pkgs.vscode-extensions; [
           usernamehw.errorlens
           ms-python.python
@@ -339,7 +349,6 @@ in
           ms-toolsai.jupyter-renderers
           tamasfe.even-better-toml
           jnoortheen.nix-ide
-          usernamehw.errorlens
           oderwat.indent-rainbow
           mkhl.direnv
           rust-lang.rust-analyzer
@@ -382,6 +391,9 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = false;
+      # No plugin in the list needs the ruby/python providers
+      withRuby = false;
+      withPython3 = false;
       # coc = {
       #   enable = true;
       # };
@@ -390,7 +402,7 @@ in
       plugins = with pkgs.vimPlugins; [
         coc-fzf
         fzf-vim
-        fugitive
+        vim-fugitive
         vim-polyglot
         # coc-nvim
         vim-jsonnet
@@ -400,16 +412,14 @@ in
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         # On macOS, add 1password SSH keys
         "*" = {
-          forwardAgent = true;
-          compression = true;
-          extraOptions =
-            if pkgs.stdenv.isDarwin then
-              { IdentityAgent = "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"; }
-            else
-              { };
+          ForwardAgent = true;
+          Compression = true;
+        }
+        // lib.optionalAttrs pkgs.stdenv.isDarwin {
+          IdentityAgent = "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock";
         };
       };
       includes = [ config.sops.secrets.ssh_config.path ];

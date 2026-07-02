@@ -3,13 +3,13 @@
 
   inputs = {
     # Package sets
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # Environment/system management
-    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secrets
@@ -110,12 +110,7 @@
         git-hooks = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            format_all = {
-              enable = true;
-              name = "fmt";
-              entry = "${scripts.fmt-srcs}/bin/fmt-srcs";
-              pass_filenames = false;
-            };
+            nixfmt-rfc-style.enable = true;
           };
         };
         dlutgehet-home-config = home-manager.lib.homeManagerConfiguration {
@@ -130,13 +125,19 @@
         };
       in
       {
+        # Standalone home-manager config for non-managed (e.g. remote) systems.
         homeConfigurations.dlutgehet = dlutgehet-home-config;
+        # `nix fmt` formats the whole tree with nixfmt
+        formatter = pkgs.nixfmt-tree;
         packages = {
           inherit git-hooks;
-          dlutgehet-work-macbook-cache = dlutgehet-home-config.activationPackage; # TODO: Fix and replace by darwinConfigurations.dlutgehet-work-macbook.system
           default = scripts.install;
         }
-        // scripts;
+        // scripts
+        # Expose the full system closure so CI can build/cache it.
+        // nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {
+          dlutgehet-work-macbook-cache = darwinConfigurations.dlutgehet-work-macbook.system;
+        };
         checks = {
           inherit git-hooks;
         };

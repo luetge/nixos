@@ -16,14 +16,20 @@ if [ -f "$STATE_FILE" ]; then
   if [ -n "$TRANSCRIPT" ] && [ -f "$TRANSCRIPT" ]; then
     # Extract last 30 assistant/user message pairs from transcript
     MESSAGES=$(tail -n 100 "$TRANSCRIPT" 2>/dev/null | \
-      jq -s '[.[] | select(.type == "human" or .type == "assistant")] | .[-30:]' 2>/dev/null || echo "[]")
+      jq -s '[.[] | select(.type == "user" or .type == "assistant")] | .[-30:]' 2>/dev/null || echo "[]")
 
     if [ "$MESSAGES" != "[]" ] && [ -n "$MESSAGES" ]; then
       CONTEXT=$(echo "$MESSAGES" | jq -r '
+        # content is either a plain string or an array of blocks; keep text blocks only
+        def text: .message.content
+          | if type == "string" then .
+            else ([.[]? | select(.type? == "text") | .text] | join(" "))
+            end;
         [.[] |
-          if .type == "human" then "USER: \(.message.content // "")"
-          elif .type == "assistant" then "ASSISTANT: \(.message.content[:500] // "")"
-          else empty end
+          if .type == "user" then "USER: \(text[:500])"
+          elif .type == "assistant" then "ASSISTANT: \(text[:500])"
+          else empty end |
+          select(. != "USER: " and . != "ASSISTANT: ")
         ] | join("\n---\n")
       ' 2>/dev/null || echo "")
 
