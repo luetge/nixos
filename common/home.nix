@@ -110,6 +110,10 @@ let
     # Project build deps (hdf5, boost, openmpi, cmake, swig, ffmpeg.dev, …)
     # deliberately live in per-project dev shells (see templates/), not here:
     # a global LIBRARY_PATH/toolchain leaks into and breaks project builds.
+    cmake
+    hdf5.dev
+    ffmpeg.dev
+    openmpi
 
     compress-pdf
 
