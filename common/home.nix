@@ -543,7 +543,6 @@ in
           log = "true";
         };
         push = {
-          default = "matching";
           followTags = "true";
         };
         pull = {
