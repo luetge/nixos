@@ -37,15 +37,6 @@ let
     else
       account="Daniel-Luetgehetmann_inait"
     fi
-    # `gh auth status` reports the *global* active account from hosts.yml, which
-    # the wrapper deliberately never changes -- so on its own it looks like the
-    # wrong account is in use even when it isn't. Say which account this
-    # directory actually resolves to before handing over.
-    if [[ "''${1:-}" == "auth" && "''${2:-}" == "status" ]]; then
-      echo "cwd $PWD -> using account '$account' (wrapper injects its token per command;" >&2
-      echo "the 'Active account' below is gh's global default, used only by 'gh auth ...')" >&2
-      echo >&2
-    fi
     # `gh auth ...` must see the real config: an injected token makes login,
     # logout, switch and status report the env token instead of the keyring.
     # An explicit GH_TOKEN/GITHUB_TOKEN in the environment also wins, so CI and
