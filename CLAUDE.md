@@ -16,7 +16,7 @@
 - **Machine config uses the module system**: add options via `imports`, never `//` attrset merging.
 - **Project build deps (hdf5, boost, cmake, …) do NOT go in `common/home.nix`** — they belong in per-project dev shells (direnv + nix-direnv/devenv are set up globally).
 - Claude Code configs are split: `~/.claude-personal` for `~/personal/*`, `~/.claude-work` elsewhere (see the `claude` wrapper in `common/home.nix`).
-- **`gh` picks its GitHub account the same way** (`luetge` under `~/personal/*`, the work account elsewhere), via the `gh-context`/`gh-wrapper` derivations in `common/home.nix`. Both accounts stay logged in in the single `~/.config/gh`; the wrapper only exports `GH_TOKEN` per invocation, so `gh auth switch` is never needed and the global active account stays put. `gh auth …` and a pre-set `GH_TOKEN`/`GITHUB_TOKEN` bypass the wrapper. Adding a new account = `gh auth login` once, then update the account name in `common/home.nix`.
+- **`gh` picks its GitHub account the same way** (`luetge` under `~/personal/*`, the work account elsewhere), via the `gh-context`/`gh-wrapper` derivations in `common/home.nix`. Both accounts stay logged in in the single `~/.config/gh`; the wrapper only exports `GH_TOKEN` per invocation, so `gh auth switch` is never needed and the global active account stays put. `gh auth …` and a pre-set `GH_TOKEN`/`GITHUB_TOKEN` bypass the wrapper — so **`gh auth status` shows the global active account, not the one in use**; the wrapper prints the effective account above it. Only `gh auth …` and non-wrapper callers (absolute-path `gh`, editor extensions) use that global default, so keep it on the work account. Adding a new account = `gh auth login` once, then update the account name in `common/home.nix`.
 
 ## Commands
 
