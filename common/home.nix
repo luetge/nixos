@@ -21,6 +21,46 @@ let
     fi
     exec ${pkgs.claude-code}/bin/claude "$@"
   '';
+  # Same personal/work split as claude-wrapper, but gh needs a different trick:
+  # it keeps a single global ~/.config/gh/hosts.yml whose `user:` field is the
+  # active account, so `gh auth switch` (or a per-context GH_CONFIG_DIR, which
+  # writes back to the real config) flips the account for *every* shell at once.
+  # Instead both accounts stay logged in and we only override the token per
+  # invocation via GH_TOKEN: it takes precedence over hosts.yml and gh never
+  # persists it, so no global state is touched.
+  gh-context = pkgs.writeShellScriptBin "gh" ''
+    # ~/personal and anything under it is personal, everything else is work.
+    # Matched with an explicit trailing slash rather than a bare "personal"*
+    # prefix so a sibling like ~/personal-archive stays on the work account.
+    if [[ "$PWD" == "$HOME/personal" || "$PWD" == "$HOME/personal/"* ]]; then
+      account="luetge"
+    else
+      account="Daniel-Luetgehetmann_inait"
+    fi
+    # `gh auth ...` must see the real config: an injected token makes login,
+    # logout, switch and status report the env token instead of the keyring.
+    # An explicit GH_TOKEN/GITHUB_TOKEN in the environment also wins, so CI and
+    # one-off overrides keep working.
+    if [[ "''${1:-}" != "auth" && -z "''${GH_TOKEN:-}" && -z "''${GITHUB_TOKEN:-}" ]]; then
+      # Reads that account's token straight out of the keyring without making it
+      # active. Silently skipped when the account isn't logged in on this
+      # machine, which falls back to gh's own active account.
+      if token=$(${pkgs.gh}/bin/gh auth token --hostname github.com --user "$account" 2>/dev/null) &&
+        [[ -n "$token" ]]; then
+        export GH_TOKEN="$token"
+      fi
+    fi
+    exec ${pkgs.gh}/bin/gh "$@"
+  '';
+  # Keep gh's man pages and shell completions: gh-context is listed first so its
+  # bin/gh wins the collision, everything else comes from the real package.
+  gh-wrapper = pkgs.symlinkJoin {
+    name = "gh-context-wrapper-${pkgs.gh.version}";
+    paths = [
+      gh-context
+      pkgs.gh
+    ];
+  };
   safe-reattach-to-user-namespace =
     if pkgs.stdenv.isDarwin then
       pkgs.reattach-to-user-namespace
@@ -65,7 +105,7 @@ let
     signal-export
     pre-commit
     awscli
-    gh
+    gh-wrapper # provides `gh` (context-aware account, see above)
     tree
     graphviz
     # jujutsu is configured via programs.jujutsu below
