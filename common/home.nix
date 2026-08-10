@@ -126,7 +126,6 @@ let
 
     (python313.withPackages (ps: with ps; [ python-lsp-server ]))
     nerd-fonts.fira-code
-    marimo
     nix-output-monitor
     nh
     ffmpeg
