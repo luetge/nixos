@@ -72,6 +72,140 @@ let
     set -e
     ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dColorConversionStrategy=/sRGB -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$2" "$1"
   '';
+  # Keep long agent runs alive with the lid shut. Three things are non-obvious:
+  #
+  #  * `caffeinate` alone is not enough. It only blocks *idle* sleep; closing the
+  #    lid is a separate forced sleep that ignores every assertion. Only
+  #    `pmset disablesleep` stops that, and it needs root.
+  #  * `ioreg`'s AppleClamshellCausesSleep is a static hardware capability, not
+  #    live policy — it reads "Yes" even when sleep is correctly disabled. The
+  #    authoritative check is `pmset -g | grep SleepDisabled`.
+  #  * `caffeinate -s` is silently ignored on battery and `-u` needs a `-t`
+  #    timeout, so `-dim` is the only combination that holds on battery power.
+  #
+  # sudo is taken only for the pmset writes, so the caffeinate holder is owned by
+  # the user and $! is the real pid rather than a sudo wrapper that exits at once.
+  go-agents = pkgs.writeShellScriptBin "go-agents" (
+    if pkgs.stdenv.isDarwin then
+      ''
+        set -euo pipefail
+
+        pmset=/usr/bin/pmset
+        caffeinate=/usr/bin/caffeinate
+        awk=/usr/bin/awk
+
+        state="$HOME/.local/state/go-agents.pid"
+        mkdir -p "$(dirname "$state")"
+
+        sleep_disabled() {
+          $pmset -g | $awk '/SleepDisabled/{print $2; f=1} END{if(!f) print 0}'
+        }
+
+        # Resolve the holder from the pid file, but only trust it if the process
+        # is still a live caffeinate — a recycled pid must not be killed.
+        holder_pid() {
+          [ -f "$state" ] || return 1
+          local pid
+          pid=$(cat "$state" 2>/dev/null) || return 1
+          [ -n "$pid" ] || return 1
+          case "$(ps -p "$pid" -o comm= 2>/dev/null)" in
+            *caffeinate) echo "$pid" ;;
+            *) return 1 ;;
+          esac
+        }
+
+        stop_holder() {
+          local pid
+          if pid=$(holder_pid); then
+            kill "$pid" 2>/dev/null || true
+          fi
+          rm -f "$state"
+        }
+
+        # Warn when the machine is not plugged in: disabling sleep does not make
+        # power, it just turns a safe suspend into a drain to 0% mid-run. The
+        # drain caveat only applies once sleep is actually off, so it is gated on
+        # that rather than printed on every status call.
+        power_note() {
+          local batt
+          batt=$($pmset -g ps | $awk -F'\t' 'NR==2{print $2}' | sed 's/ present: .*//')
+          if $pmset -g ps | grep -q "'AC Power'"; then
+            echo "power    : AC — good for a long run"
+          else
+            echo "power    : BATTERY — $batt"
+            if [ "$(sleep_disabled)" = 1 ]; then
+              echo "           Sleep is off, so this drains to 0% instead of suspending."
+              echo "           Plug in the charger if the agents must outlast that."
+            fi
+          fi
+        }
+
+        show_status() {
+          local sd holder
+          sd=$(sleep_disabled)
+          if [ "$sd" = 1 ]; then
+            echo "lid      : SAFE to close (SleepDisabled=1)"
+          else
+            echo "lid      : closing it WILL SLEEP (SleepDisabled=0)"
+          fi
+          if holder=$(holder_pid); then
+            echo "caffeine : holding (pid $holder)"
+          else
+            echo "caffeine : not running"
+          fi
+          echo "network  : default route via $(/sbin/route -n get default 2>/dev/null | $awk '/interface:/{print $2}')"
+          power_note
+        }
+
+        case "''${1:-on}" in
+          on)
+            echo "Disabling lid-close sleep (needs sudo)…"
+            sudo $pmset -a disablesleep 1
+            sudo $pmset -a sleep 0
+            sudo $pmset -a disksleep 0
+            sudo $pmset -a powernap 0
+            sudo $pmset -a tcpkeepalive 1
+
+            stop_holder
+            nohup $caffeinate -dim >/dev/null 2>&1 &
+            echo $! > "$state"
+
+            echo
+            show_status
+            ;;
+          off)
+            echo "Restoring normal sleep (needs sudo)…"
+            sudo $pmset -a disablesleep 0
+            sudo $pmset -b sleep 1
+            sudo $pmset -c sleep 1
+            sudo $pmset -a disksleep 10
+            sudo $pmset -a powernap 1
+            stop_holder
+
+            echo
+            show_status
+            ;;
+          status)
+            show_status
+            ;;
+          -h | --help)
+            echo "usage: go-agents [on|off|status]"
+            echo "  on      (default) keep running with the lid closed"
+            echo "  off     restore normal sleep"
+            echo "  status  report current state, no sudo needed"
+            ;;
+          *)
+            echo "go-agents: unknown argument '$1' (try --help)" >&2
+            exit 1
+            ;;
+        esac
+      ''
+    else
+      ''
+        echo "go-agents: macOS only" >&2
+        exit 1
+      ''
+  );
   tweag-nickel = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       publisher = "tweag";
@@ -155,6 +289,7 @@ let
     openmpi
 
     compress-pdf
+    go-agents # keep agents running with the lid shut (macOS only)
 
     # Fonts
     roboto

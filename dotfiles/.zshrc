@@ -64,6 +64,17 @@ alias make_pwd_private='chmod -R go-rwx .'
 alias g='git'
 alias t='tmux -2 attach -d || tmux -2 new';
 
+# Robot Brain OS v2 cockpit. Its narrator needs ANTHROPIC_API_KEY; the key is fetched from
+# 1Password at launch so it never sits on disk. A real env var beats the repo's .env loader.
+rbos2-cockpit() {
+    local key
+    key=$(op read --account inait.1password.com 'op://Employee/Anthropic API Key Daniel/password') || {
+        print -u2 "rbos2-cockpit: 1Password read failed — sign in with 'op signin' and retry."
+        return 1
+    }
+    ANTHROPIC_API_KEY=$key ~/code/robot_brain_os_v2/mission_control.sh "$@"
+}
+
 # Capslock mapping is handled by nix-darwin (system.keyboard.remapCapsLockToControl);
 # running hidutil here slowed down every new shell.
 

@@ -32,7 +32,6 @@
       "Bash(uv run pytest:*)"
     ]
   },
-  "model": "sonnet",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -71,11 +70,9 @@
   },
   "enabledPlugins": {
     "code-simplifier@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true,
-    "serena@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "last30days@last30days-skill": true,
-    "stripe@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
