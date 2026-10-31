@@ -32,6 +32,7 @@
       "Bash(uv run pytest:*)"
     ]
   },
+  "model": "opus[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -77,8 +78,9 @@
     "commit-commands@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "last30days@last30days-skill": true
+    "last30days@last30days-skill": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "model": "opus[1m]"
+  "tui": "fullscreen"
 }

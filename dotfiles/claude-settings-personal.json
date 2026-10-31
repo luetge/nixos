@@ -72,10 +72,46 @@
     "code-simplifier@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "last30days@last30days-skill": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "tui": "fullscreen",
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push --force*) in SheCrea/platform — main is ruleset-protected, force-push risk",
+      "Bash(nix run .#deploy*) — triggers production Neon migration deploy per database.md"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: SheCrea (github.com/SheCrea) — inferred from the repo remote (origin github.com:SheCrea/platform.git); no separate org-wide config found",
+      "**Cloud provider(s)**: Cloudflare (Workers, R2, tunnel), Neon (Postgres), Scaleway (AI API), inferred from terraform/ directory structure and CI secret names",
+      "**Repository visibility**: private (confirmed via gh) — SheCrea/platform",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: SOPS-encrypted secrets (nix/secrets/{ci,observability,production}/secrets.yml, .sops.agekeys.txt gitignored) plus 1Password (vault wmdvha6owbeqdg5oxcw6asrada, referenced in README `op signin` and CLAUDE.md rotation notes)",
+      "**Default / protected branches**: `main` is the default branch and is protected by an active ruleset (gh-confirmed); CLAUDE.md also states \"Never push to main!\"",
+      "**CI/CD deploy targets**: Cloudflare Workers (frontend/backend), Neon Postgres (migrations via `nix run .#deploy` using neon_owner_connection_string), Scaleway (LLM/AI), per terraform/ and CI secret names — this project's CI/CD only",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet; Nix dev shell and process-compose (Postgres + MinIO) are local services, not a sealed container",
+      "**Source control**: SheCrea/platform (github.com:SheCrea/platform.git) and its remote only — no additional orgs configured",
+      "**Trusted internal domains**: app.shecrea.com (contacted 17× in this project's transcripts)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: api.scaleway.ai (Scaleway AI/LLM API, contacted 4× in this project's transcripts)",
+      "**Internal package registry**: nix binary cache (NIX_CACHE_* secrets in CI; self-hosted per terraform/cloudflare/r2_tokens.tf) — this project's cache only",
+      "**Sensitive data locations & audiences**: personal/regulated user data implied by i18n consent rules (terms.sensitiveData, terms.yoursAlone) and credential files (.env, nix/secrets/*/secrets.yml, .terraform/terraform.tfstate, fastlane/asc_api_key.json, *.keystore) — share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: nix/secrets/production/secrets.yml, terraform/cloudflare/staging.tf and production-scoped Cloudflare/Neon/Scaleway resources (any namespace/host/container with `prod`/`production` as a whole word or segment)",
+      "**Protected deployment namespaces / environments**: production Cloudflare Workers, Neon production database, Scaleway production — anything with `prod`/`production` as a whole word or segment",
+      "**Protected IaC scopes**: terraform/cloudflare/*, terraform/neon/*, terraform/scaleway/*, terraform/modules/r2-token/*, terraform/rotation.tf — IAM, RBAC, networking, quota, node-pool resources and anything tagged prod/production",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (React/TanStack frontend, Cloudflare Workers/tRPC backend, Terraform+Nix infra) on SheCrea/platform",
+      "**Trusted repo**: /Users/dlutgehet/personal/code/shecrea (SheCrea/platform, private) and its origin remote",
+      "**Org-specific CLIs**: nix (dev shell / process-compose, 315× in this project), op (1Password CLI, 4×)",
+      "**Routine under this repo's working tree**: nix develop / nix run / npm run test:ci / drizzle-kit generate scoped to this project"
+    ]
+  },
+  "inputNeededNotifEnabled": true
 }

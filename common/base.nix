@@ -48,6 +48,8 @@
             };
             cores = 6;
           };
+          # The VM is aarch64; emulate x86_64 so the advertised x86_64-linux system actually builds.
+          boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
         };
         systems = [
           "x86_64-linux"
