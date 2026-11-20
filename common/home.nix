@@ -270,6 +270,7 @@ let
     # upstream (NixOS/nixpkgs#450126), with no binary cache to fall back on.
 
     devenv
+    yubikey-manager
 
     # Better cli tools
     eza

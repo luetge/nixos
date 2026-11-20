@@ -78,6 +78,7 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "tui": "fullscreen",
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
     "soft_deny": [
@@ -112,6 +113,5 @@
       "**Org-specific CLIs**: nix (dev shell / process-compose, 315× in this project), op (1Password CLI, 4×)",
       "**Routine under this repo's working tree**: nix develop / nix run / npm run test:ci / drizzle-kit generate scoped to this project"
     ]
-  },
-  "inputNeededNotifEnabled": true
+  }
 }
