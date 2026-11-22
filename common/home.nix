@@ -271,6 +271,7 @@ let
 
     devenv
     yubikey-manager
+    age-plugin-yubikey
 
     # Better cli tools
     eza
